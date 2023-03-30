@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 
 import {
   MdLogin,
+  MdLogout,
   MdAccountBox,
   MdContactPage,
+  MdHistory,
   MdViewList,
   MdInbox
 } from 'react-icons/md'
@@ -25,7 +27,13 @@ const sections: {
           id: 'top',
           to: '/',
           icon: <MdAccountBox />,
-          text: '登録情報確認'
+          text: 'プロフィール'
+        },
+        {
+          id: 'eventHistory',
+          to: '/event-history',
+          icon: <MdHistory />,
+          text: 'イベント参加履歴'
         },
         {
           id: 'requestDocuments',
@@ -62,6 +70,12 @@ const Menu: React.FC = () => (
         <Text>ログイン</Text>
       </ItemButton>
     </Section>
+    <Section>
+      <ItemButton>
+        <Icon><MdLogout /></Icon>
+        <Text>ログアウト</Text>
+      </ItemButton>
+    </Section>
     {sections.map(section => <Section>
       <Heading>{section.title}</Heading>
       {section.items.map(item => <ItemLink key={item.id} to={item.to}>
@@ -78,7 +92,7 @@ export default Menu
 const Container = styled.nav`
 `
 const Section = styled.section`
-  margin-bottom: 5px;
+  margin-bottom: 20px;
   &:last-child {
     margin-bottom: 0;
   }

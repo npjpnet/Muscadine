@@ -5,16 +5,24 @@ const Header: React.FC = () => (
     <Brand>
       Muscadine
     </Brand>
+    <Account>
+      ts@n-point.net としてログイン中
+    </Account>
   </Container>
 )
 
 export default Header
 
 const Container = styled.header`
-  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10%;
   background-color: var(--primary-color);
   color: #ffffff;
 `
 const Brand = styled.section`
   font-weight: bold;
+`
+const Account = styled.section`
+  text-align: right;
 `

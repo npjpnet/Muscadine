@@ -28,7 +28,7 @@ const Container = styled.section`
   grid-template-rows: auto 1fr auto;
 `
 const Main = styled.section`
-  height: 100%;
+  padding: 20px 10%;
   display: grid;
   grid-template-columns: 20% 1fr;
 `

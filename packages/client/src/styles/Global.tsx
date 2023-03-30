@@ -8,7 +8,12 @@ body {
   font-family: 'BIZ UDPGothic', system-ui, sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 p, ul, ol,
+table,
 h1, h2, h3, h4, h5, h6 {
   margin-bottom: 20px;
   &:last-child {
@@ -32,6 +37,32 @@ h6 { font-size: 0.9em; }
 
 a {
   color: var(--primary-color);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  thead {
+    tr {
+      background-color: transparent;
+    }
+  }
+  tbody {
+    border-top: 2px solid var(--primary-color);
+    border-bottom:  2px solid var(--primary-color);
+  }
+
+  tr {
+    background-color: #f8f8f8;
+    &:nth-child(2n) {
+      background-color: #f0f0f0;
+    }
+  }
+  th, td {
+    padding: 10px;
+    text-align: left;
+  }
 }
 `
 
