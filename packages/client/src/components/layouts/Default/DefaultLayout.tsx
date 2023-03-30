@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import Header from './Header'
-import Footer from './Footer'
+import Menu from './Menu'
 
 interface Props {
   children: React.ReactNode
@@ -9,8 +9,14 @@ interface Props {
 const DefaultLayout: React.FC<Props> = (props) => (
   <Container>
     <Header />
-    <Main>{props.children}</Main>
-    <Footer />
+    <Main>
+      <MenuWrap>
+        <Menu />
+      </MenuWrap>
+      <Content>
+        {props.children}
+      </Content>
+    </Main>
   </Container>
 )
 
@@ -21,6 +27,13 @@ const Container = styled.section`
   display: grid;
   grid-template-rows: auto 1fr auto;
 `
-const Main = styled.main`
-  padding: 40px 10%;
+const Main = styled.section`
+  height: 100%;
+  display: grid;
+  grid-template-columns: 20% 1fr;
+`
+const MenuWrap = styled.section`
+`
+const Content = styled.main`
+  padding: 20px;
 `

@@ -9,6 +9,10 @@ import ColorStyle from './styles/Color'
 import CustomStyle from './styles/Custom'
 
 import AppComponent from './containers/App'
+import MyPageTopComponent from './containers/mypage/Top'
+import MyPageRequestDocumentComponent from './containers/mypage/RequestDocument'
+import ManageTopComponent from './containers/manage/Top'
+import ManageRequestComponent from './containers/manage/Request'
 
 const Root: React.FC = () => (
   <>
@@ -23,7 +27,24 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <AppComponent />
+        element: <MyPageTopComponent />
+      },
+      {
+        path: 'request-documents',
+        element: <MyPageRequestDocumentComponent />
+      },
+      {
+        path: 'manage',
+        children: [
+          {
+            index: true,
+            element: <ManageTopComponent />
+          },
+          {
+            path: 'request-documents',
+            element: <ManageRequestComponent />
+          }
+        ]
       }
     ]
   }
