@@ -1,13 +1,32 @@
-export interface SunflowerSession {
+export interface MuscadineUser {
   name: string
+  nameYomi: string
+  nameAlphabet: string
+  realName: string
+  realNameYomi: string
+  personalEmail: string
+  telephone: string
+  postalCode: string
+  address: string
+  discordTag: string
+  canUseRealNameForDisplay: boolean
 }
 
-export interface SunflowerCircle {
-  name: string
-  space: string
-  status?: SunflowerCircleStatus
+export interface MuscadineUserMeta {
+  uuid: string
+  code: string
+  team: {
+    main: string
+    sub: string
+    remarks: string
+  }
+  services: {
+    email: string
+    giji?: string
+    redmine?: string
+    knowledge?: string
+    memkan?: string
+  }
 }
-
-export type SunflowerCircleStatus = 0 | 1 | 2
 
 export type valueOf<T> = T[keyof T]

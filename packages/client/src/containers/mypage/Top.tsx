@@ -1,7 +1,35 @@
+import { useEffect, useState } from 'react'
+import type { MuscadineUser, MuscadineUserMeta } from 'muscadine'
+
 import styled from 'styled-components'
 import DefaultLayout from '../../components/layouts/Default/DefaultLayout'
+import useFirebase from '../../hooks/useFirebase'
+import useUser from '../../hooks/useUser'
 
 const MyPageTop: React.FC = () => {
+  const { user } = useFirebase()
+  const { getUserById, getUserMetaByUserId } = useUser()
+
+  const [userData, setUserData] = useState<MuscadineUser>()
+  const [userMetaData, setUserMetaData] = useState<MuscadineUserMeta>()
+
+  const onInitialize: () => void =
+    () => {
+      const fetchUserAsync: () => Promise<void> = async () => {
+        if (!user) return
+
+        const fetchedUser = await getUserById(user.uid)
+        setUserData(fetchedUser)
+        const fetchedUserMeta = await getUserMetaByUserId(user.uid)
+        setUserMetaData(fetchedUserMeta)
+      }
+      fetchUserAsync()
+        .catch(err => {
+          throw err
+        })
+    }
+  useEffect(onInitialize, [user])
+
   return (
     <DefaultLayout>
       <h1>登録情報表示</h1>
@@ -9,7 +37,7 @@ const MyPageTop: React.FC = () => {
         N-Pointに登録している情報を表示しています。
       </p>
 
-      <Layout>
+      {userData && userMetaData && <Layout>
         <Column>
 
           <h2>基本情報</h2>
@@ -17,19 +45,19 @@ const MyPageTop: React.FC = () => {
             <tbody>
               <tr>
                 <th>登録名</th>
-                <td>染宮ねいろ</td>
+                <td>{userData.name}</td>
               </tr>
               <tr>
                 <th>登録名(よみ)</th>
-                <td>そめみやねいろ</td>
+                <td>{userData.nameYomi}</td>
               </tr>
               <tr>
                 <th>登録名(英語表記)</th>
-                <td>SOMEMIYA Neiro</td>
+                <td>{userData.nameAlphabet}</td>
               </tr>
               <tr>
                 <th>Discordユーザ名</th>
-                <td>あいうえお#1234</td>
+                <td>{userData.discordTag}</td>
               </tr>
             </tbody>
           </table>
@@ -39,35 +67,27 @@ const MyPageTop: React.FC = () => {
             <tbody>
               <tr>
                 <th>氏名</th>
-                <td>加藤 ありす</td>
+                <td>{userData.realName}</td>
               </tr>
               <tr>
                 <th>氏名(よみ)</th>
-                <td>かとう ありす</td>
+                <td>{userData.realNameYomi}</td>
               </tr>
               <tr>
                 <th>個人メールアドレス</th>
-                <td>example@example.com</td>
+                <td>{userData.personalEmail}</td>
               </tr>
               <tr>
                 <th>電話番号</th>
-                <td>00000000000</td>
+                <td>{userData.telephone}</td>
               </tr>
               <tr>
                 <th>郵便番号</th>
-                <td>〒100-0001</td>
+                <td>〒{userData.postalCode}</td>
               </tr>
               <tr>
                 <th>住所</th>
-                <td>東京都千代田区千代田1-1</td>
-              </tr>
-              <tr>
-                <th>メンバーコード</th>
-                <td>1002</td>
-              </tr>
-              <tr>
-                <th>メンバーID</th>
-                <td>2</td>
+                <td>{userData.address}</td>
               </tr>
             </tbody>
           </table>
@@ -80,16 +100,24 @@ const MyPageTop: React.FC = () => {
           <table>
             <tbody>
               <tr>
+                <th>メンバーコード</th>
+                <td>{userMetaData.code}</td>
+              </tr>
+              <tr>
+                <th>メンバーID</th>
+                <td>{userMetaData.uuid}</td>
+              </tr>
+              <tr>
                 <th>親所属</th>
-                <td>総務部</td>
+                <td>{userMetaData.team.main}</td>
               </tr>
               <tr>
                 <th>子所属</th>
-                <td>幹部</td>
+                <td>{userMetaData.team.sub}</td>
               </tr>
               <tr>
                 <th>補職</th>
-                <td>副代表</td>
+                <td>{userMetaData.team.remarks}</td>
               </tr>
             </tbody>
           </table>
@@ -117,29 +145,29 @@ const MyPageTop: React.FC = () => {
             <tbody>
               <tr>
                 <th>メール</th>
-                <td>ts@n-point.net</td>
+                <td>{userMetaData.services.email}</td>
+              </tr>
+              <tr>
+                <th>GIJI</th>
+                <td>{userMetaData.services.giji ?? '未登録'}</td>
               </tr>
               <tr>
                 <th>Redmine</th>
-                <td>10mocy</td>
+                <td>{userMetaData.services.redmine ?? '未登録'}</td>
               </tr>
               <tr>
                 <th>えなれっじ</th>
-                <td>ts@n-point.net</td>
+                <td>{userMetaData.services.knowledge ?? '未登録'}</td>
               </tr>
               <tr>
                 <th>N-Memkan</th>
-                <td>ts@n-point.net</td>
-              </tr>
-              <tr>
-                <th>なんらか</th>
-                <td>未登録</td>
+                <td>{userMetaData.services.memkan ?? '未登録'}</td>
               </tr>
             </tbody>
           </table>
 
         </Column>
-      </Layout>
+      </Layout>}
 
     </DefaultLayout>
   )
