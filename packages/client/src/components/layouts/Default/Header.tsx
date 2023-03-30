@@ -1,15 +1,20 @@
 import styled from 'styled-components'
+import useFirebase from '../../../hooks/useFirebase'
 
-const Header: React.FC = () => (
-  <Container>
-    <Brand>
-      Muscadine
-    </Brand>
-    <Account>
-      ts@n-point.net としてログイン中
-    </Account>
-  </Container>
-)
+const Header: React.FC = () => {
+  const { user } = useFirebase()
+
+  return (
+    <Container>
+      <Brand>
+        Muscadine
+      </Brand>
+      {user && <Account>
+        {user.email} としてログイン中
+      </Account>}
+    </Container>
+  )
+}
 
 export default Header
 

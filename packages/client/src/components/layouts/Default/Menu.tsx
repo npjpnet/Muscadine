@@ -1,8 +1,7 @@
 import styled, { css } from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import {
-  MdLogin,
   MdLogout,
   MdAccountBox,
   MdContactPage,
@@ -11,7 +10,10 @@ import {
   MdInbox
 } from 'react-icons/md'
 
+import useFirebase from '../../../hooks/useFirebase'
+
 const sections: {
+  id: string
   title: string
   items: {
     id: string,
@@ -21,6 +23,7 @@ const sections: {
   }[]
 }[] = [
     {
+      id: 'mypage',
       title: 'マイページ',
       items: [
         {
@@ -44,6 +47,7 @@ const sections: {
       ]
     },
     {
+      id: 'manage',
       title: 'メンバー管理',
       items: [
         {
@@ -62,30 +66,33 @@ const sections: {
     }
   ]
 
-const Menu: React.FC = () => (
-  <Container>
-    <Section>
-      <ItemButton>
-        <Icon><MdLogin /></Icon>
-        <Text>ログイン</Text>
-      </ItemButton>
-    </Section>
-    <Section>
-      <ItemButton>
-        <Icon><MdLogout /></Icon>
-        <Text>ログアウト</Text>
-      </ItemButton>
-    </Section>
-    {sections.map(section => <Section>
-      <Heading>{section.title}</Heading>
-      {section.items.map(item => <ItemLink key={item.id} to={item.to}>
-        <Icon>{item.icon}</Icon>
-        <Text>{item.text}</Text>
-      </ItemLink>)}
-    </Section>)
-    }
-  </Container>
-)
+const Menu: React.FC = () => {
+  const navigate = useNavigate()
+  const { isLoggedIn, logout } = useFirebase()
+  const handleLogout = () => {
+    logout()
+    navigate('/login')
+  }
+
+  return (
+    isLoggedIn && <Container>
+      <Section>
+        <ItemButton onClick={handleLogout}>
+          <Icon><MdLogout /></Icon>
+          <Text>ログアウト</Text>
+        </ItemButton>
+      </Section>
+      {sections.map(section => <Section key={section.id}>
+        <Heading>{section.title}</Heading>
+        {section.items.map(item => <ItemLink key={item.id} to={item.to}>
+          <Icon>{item.icon}</Icon>
+          <Text>{item.text}</Text>
+        </ItemLink>)}
+      </Section>)
+      }
+    </Container> || null
+  )
+}
 
 export default Menu
 

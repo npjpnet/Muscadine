@@ -8,11 +8,15 @@ import GlobalStyle from './styles/Global'
 import ColorStyle from './styles/Color'
 import CustomStyle from './styles/Custom'
 
+import LoginComponent from './containers/Login'
 import MyPageTopComponent from './containers/mypage/Top'
 import MyPageRequestDocumentComponent from './containers/mypage/RequestDocument'
 import MyPageEventHistoryComponent from './containers/mypage/EventHistory'
 import ManageTopComponent from './containers/manage/Top'
 import ManageRequestComponent from './containers/manage/Request'
+
+import { getFirebaseApp } from './libs/FirebaseApp'
+getFirebaseApp()
 
 const Root: React.FC = () => (
   <>
@@ -28,6 +32,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <MyPageTopComponent />
+      },
+      {
+        path: 'login',
+        element: <LoginComponent />
       },
       {
         path: 'request-documents',
