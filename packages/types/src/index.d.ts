@@ -10,11 +10,13 @@ export interface MuscadineUser {
   address: string
   discordTag: string
   canUseRealNameForDisplay: boolean
+  allowShownFace: boolean
 }
 
 export interface MuscadineUserMeta {
   uuid: string
   code: string
+  idCardIssuedCount: number
   team: {
     main: string
     sub: string
@@ -27,6 +29,13 @@ export interface MuscadineUserMeta {
     knowledge?: string
     memkan?: string
   }
+}
+
+export interface MuscadineIDCardHistory {
+  cardNumber: string
+  remarks: string
+  canUseRealNameForDisplay: boolean
+  allowShownFace: boolean
 }
 
 export type valueOf<T> = T[keyof T]
