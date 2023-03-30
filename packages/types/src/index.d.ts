@@ -70,4 +70,16 @@ export interface MuscadineSkillbadge {
   }
 }
 
+export type MuscadineRequestStatus = 0 | 1 | 2 | 3
+export interface MuscadineDocumentRequest {
+  type: string
+  reason: string
+  remarks: string
+}
+export type MuscadineDocumentRequestDoc = MuscadineDocumentRequest & {
+  userId: string
+  status: MuscadineRequestStatus
+  timestamp: number
+}
+
 export type valueOf<T> = T[keyof T]

@@ -104,6 +104,23 @@ const MyPageTop: React.FC = () => {
               </tbody>
             </table>
 
+            <h2>経費振込先情報</h2>
+            <table>
+              <tbody>
+                <tr>
+                  <th>銀行名</th>
+                  <td>- TBD -</td>
+                </tr>
+                <tr>
+                  <th>支店名</th>
+                  <td>- TBD -</td>
+                </tr>
+                <tr>
+                  <th>口座番号</th>
+                  <td>- TBD -</td>
+                </tr>
+              </tbody>
+            </table>
           </Column>
 
           <Column>

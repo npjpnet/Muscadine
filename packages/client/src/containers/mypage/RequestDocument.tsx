@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import type { MuscadineDocumentRequest } from 'muscadine'
+
+import useFirebase from '../../hooks/useFirebase'
+import useRequestDocument from '../../hooks/useRequestDocument'
 
 import DefaultLayout from '../../components/layouts/Default/DefaultLayout'
-
 import FormButton from '../../components/form/FormButton'
-import FormInput from '../../components/form/FormInput'
 import FormItem from '../../components/form/FormItem'
 import FormLabel from '../../components/form/FormLabel'
 import FormRadio from '../../components/form/FormRadio'
@@ -40,13 +42,24 @@ const requestReasons = [
 ]
 
 const RequestDocument: React.FC = () => {
-  const [request, setRequest] = useState({
+  const { user } = useFirebase()
+  const { createDocumentRequest } = useRequestDocument()
+
+  const [request, setRequest] = useState<MuscadineDocumentRequest>({
     type: '',
     reason: '',
     remarks: ''
   })
 
-  useEffect(() => console.log(request), [request])
+  const handleSubmit: () => void =
+    () => {
+      if (!user) return
+      createDocumentRequest(user.uid, request)
+        .then((requestId) => alert(requestId))
+        .catch(err => {
+          throw err
+        })
+    }
 
   return (
     <DefaultLayout>
@@ -78,7 +91,7 @@ const RequestDocument: React.FC = () => {
       </FormSection>
       <FormSection>
         <FormItem>
-          <FormButton>内容確認</FormButton>
+          <FormButton onClick={handleSubmit}>内容確認</FormButton>
         </FormItem>
       </FormSection>
     </DefaultLayout>

@@ -45,7 +45,7 @@ const sections: Array<{
           id: 'eventHistory',
           to: '/event-history',
           icon: <MdHistory />,
-          text: 'イベント参加履歴'
+          text: 'イベント参加履歴(TBD)'
         },
         {
           id: 'requestDocuments',
@@ -57,7 +57,7 @@ const sections: Array<{
           id: 'requestExpenses',
           to: '/request-expenses',
           icon: <MdReceipt />,
-          text: '経費申請'
+          text: '経費申請(TBD)'
         }
       ]
     },
@@ -81,7 +81,7 @@ const sections: Array<{
           id: 'manageRequestExpenses',
           to: '/manage/request-expenses',
           icon: <MdReceiptLong />,
-          text: '経費申請管理'
+          text: '経費申請管理(TBD)'
         }
       ]
     }

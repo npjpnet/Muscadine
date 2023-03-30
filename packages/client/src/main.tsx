@@ -15,7 +15,8 @@ import MyPageRequestExpenseComponent from './containers/mypage/RequestExpense'
 import MyPageEventHistoryComponent from './containers/mypage/EventHistory'
 import MyPageSkillBadgesComponent from './containers/mypage/SkillBadges'
 import ManageTopComponent from './containers/manage/Top'
-import ManageRequestDocumentComponent from './containers/manage/RequestDocument'
+import ManageRequestDocumentListComponent from './containers/manage/requestDocuments/List'
+import ManageRequestDocumentDetailComponent from './containers/manage/requestDocuments/Detail'
 import ManageRequestExpenseComponent from './containers/manage/RequestExpense'
 
 import { getFirebaseApp } from './libs/FirebaseApp'
@@ -65,7 +66,16 @@ const router = createBrowserRouter([
           },
           {
             path: 'request-documents',
-            element: <ManageRequestDocumentComponent />
+            children: [
+              {
+                index: true,
+                element: <ManageRequestDocumentListComponent />
+              },
+              {
+                path: ':requestId',
+                element: <ManageRequestDocumentDetailComponent />
+              }
+            ]
           },
           {
             path: 'request-expenses',
@@ -84,5 +94,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <GlobalStyle />
     <CustomStyle />
     <RouterProvider router={router} />
-  </React.StrictMode>,
+  </React.StrictMode>
 )
