@@ -104,7 +104,6 @@ const useFirebase: () => IUseFirebase =
       () => {
         const auth = getAuth()
         const unSubscribe = onIdTokenChanged(auth, (user) => {
-          console.log('hello')
           setUser(user)
           setLoggedIn(!!user)
         })

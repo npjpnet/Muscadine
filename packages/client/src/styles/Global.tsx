@@ -39,6 +39,10 @@ a {
   color: var(--primary-color);
 }
 
+ul, ol {
+  padding-left: 2em;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

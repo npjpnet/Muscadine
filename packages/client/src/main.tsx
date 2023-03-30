@@ -11,9 +11,12 @@ import CustomStyle from './styles/Custom'
 import LoginComponent from './containers/Login'
 import MyPageTopComponent from './containers/mypage/Top'
 import MyPageRequestDocumentComponent from './containers/mypage/RequestDocument'
+import MyPageRequestExpenseComponent from './containers/mypage/RequestExpense'
 import MyPageEventHistoryComponent from './containers/mypage/EventHistory'
+import MyPageSkillBadgesComponent from './containers/mypage/SkillBadges'
 import ManageTopComponent from './containers/manage/Top'
-import ManageRequestComponent from './containers/manage/Request'
+import ManageRequestDocumentComponent from './containers/manage/RequestDocument'
+import ManageRequestExpenseComponent from './containers/manage/RequestExpense'
 
 import { getFirebaseApp } from './libs/FirebaseApp'
 getFirebaseApp()
@@ -38,8 +41,16 @@ const router = createBrowserRouter([
         element: <LoginComponent />
       },
       {
+        path: 'skillbadges',
+        element: <MyPageSkillBadgesComponent />
+      },
+      {
         path: 'request-documents',
         element: <MyPageRequestDocumentComponent />
+      },
+      {
+        path: 'request-expenses',
+        element: <MyPageRequestExpenseComponent />
       },
       {
         path: 'event-history',
@@ -54,7 +65,11 @@ const router = createBrowserRouter([
           },
           {
             path: 'request-documents',
-            element: <ManageRequestComponent />
+            element: <ManageRequestDocumentComponent />
+          },
+          {
+            path: 'request-expenses',
+            element: <ManageRequestExpenseComponent />
           }
         ]
       }

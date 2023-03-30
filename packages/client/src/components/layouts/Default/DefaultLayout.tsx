@@ -15,15 +15,16 @@ const DefaultLayout: React.FC<Props> = (props) => {
   const navigate = useNavigate()
   const { isLoggedIn } = useFirebase()
 
-  const onChangeLoggedInState = () => {
-    if (props.allowAnonymous || isLoggedIn === undefined) return
-    if (isLoggedIn) return
-    navigate('/login')
-  }
+  const onChangeLoggedInState: () => void =
+    () => {
+      if (props.allowAnonymous ?? isLoggedIn === undefined) return
+      if (isLoggedIn) return
+      navigate('/login')
+    }
   useEffect(onChangeLoggedInState, [isLoggedIn, props.allowAnonymous])
 
   return (
-    isLoggedIn !== undefined && <Container>
+    (isLoggedIn !== undefined && <Container>
       <Header />
       <Main>
         <MenuWrap>
@@ -33,7 +34,7 @@ const DefaultLayout: React.FC<Props> = (props) => {
           {props.children}
         </Content>
       </Main>
-    </Container> || null
+    </Container>) || null
   )
 }
 

@@ -1,6 +1,6 @@
 import type { MuscadineIDCardHistory, MuscadineUser, MuscadineUserMeta } from 'muscadine'
-import * as FirestoreDB from 'firebase/firestore'
 
+import * as FirestoreDB from 'firebase/firestore'
 import useFirebase from './useFirebase'
 
 const userConveter: FirestoreDB.FirestoreDataConverter<MuscadineUser> = {
@@ -108,7 +108,6 @@ const useUser: () => IUseUser = () => {
       const historySnapshot = await FirestoreDB.getDocs(historyRef)
       const historyDocs = historySnapshot.docs
         .map(snapshot => snapshot.data())
-      console.log(historyDocs)
       return historyDocs
     }
 

@@ -75,10 +75,6 @@ const RequestDocument: React.FC = () => {
           <FormLabel>備考</FormLabel>
           <FormTextarea value={request.remarks} onChange={e => setRequest(s => ({ ...s, remarks: e.target.value }))} />
         </FormItem>
-        <FormItem>
-          <FormLabel>テスト</FormLabel>
-          <FormInput />
-        </FormItem>
       </FormSection>
       <FormSection>
         <FormItem>

@@ -1,11 +1,11 @@
 import DefaultLayout from '../../components/layouts/Default/DefaultLayout'
 
-const ManageRequest: React.FC = () => {
+const ManageExpense: React.FC = () => {
   return (
     <DefaultLayout>
-      <h1>書類発行申請一覧</h1>
+      <h1>経費申請一覧</h1>
       <p>
-        書類発行申請の一覧を表示しています。
+        経費申請の一覧を表示しています。
       </p>
 
       <table>
@@ -95,4 +95,4 @@ const ManageRequest: React.FC = () => {
   )
 }
 
-export default ManageRequest
+export default ManageExpense

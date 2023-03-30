@@ -1,4 +1,3 @@
-import styled from 'styled-components'
 import DefaultLayout from '../../components/layouts/Default/DefaultLayout'
 
 const EventHistory: React.FC = () => {
@@ -50,10 +49,3 @@ const EventHistory: React.FC = () => {
 }
 
 export default EventHistory
-
-const Layout = styled.section`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-`
-const Column = styled.section``

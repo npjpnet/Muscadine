@@ -4,24 +4,27 @@ import { Link, useNavigate } from 'react-router-dom'
 import {
   MdLogout,
   MdAccountBox,
+  MdStars,
   MdContactPage,
+  MdReceipt,
   MdHistory,
   MdViewList,
-  MdInbox
+  MdInbox,
+  MdReceiptLong
 } from 'react-icons/md'
 
 import useFirebase from '../../../hooks/useFirebase'
 
-const sections: {
+const sections: Array<{
   id: string
   title: string
-  items: {
-    id: string,
-    to: string,
-    icon: React.ReactNode,
+  items: Array<{
+    id: string
+    to: string
+    icon: React.ReactNode
     text: string
-  }[]
-}[] = [
+  }>
+}> = [
     {
       id: 'mypage',
       title: 'マイページ',
@@ -31,6 +34,12 @@ const sections: {
           to: '/',
           icon: <MdAccountBox />,
           text: 'プロフィール'
+        },
+        {
+          id: 'skillbadges',
+          to: '/skillbadges',
+          icon: <MdStars />,
+          text: 'スキルバッジ'
         },
         {
           id: 'eventHistory',
@@ -43,6 +52,12 @@ const sections: {
           to: '/request-documents',
           icon: <MdContactPage />,
           text: '書類発行申請'
+        },
+        {
+          id: 'requestExpenses',
+          to: '/request-expenses',
+          icon: <MdReceipt />,
+          text: '経費申請'
         }
       ]
     },
@@ -62,6 +77,12 @@ const sections: {
           icon: <MdInbox />,
           text: '書類発行申請管理'
         },
+        {
+          id: 'manageRequestExpenses',
+          to: '/manage/request-expenses',
+          icon: <MdReceiptLong />,
+          text: '経費申請管理'
+        }
       ]
     }
   ]
@@ -69,28 +90,28 @@ const sections: {
 const Menu: React.FC = () => {
   const navigate = useNavigate()
   const { isLoggedIn, logout } = useFirebase()
-  const handleLogout = () => {
-    logout()
-    navigate('/login')
-  }
+  const handleLogout: () => void =
+    () => {
+      logout()
+      navigate('/login')
+    }
 
   return (
-    isLoggedIn && <Container>
-      <Section>
-        <ItemButton onClick={handleLogout}>
-          <Icon><MdLogout /></Icon>
-          <Text>ログアウト</Text>
-        </ItemButton>
-      </Section>
+    (isLoggedIn && <Container>
       {sections.map(section => <Section key={section.id}>
         <Heading>{section.title}</Heading>
         {section.items.map(item => <ItemLink key={item.id} to={item.to}>
           <Icon>{item.icon}</Icon>
           <Text>{item.text}</Text>
         </ItemLink>)}
-      </Section>)
-      }
-    </Container> || null
+      </Section>)}
+      <Section>
+        <ItemButton onClick={handleLogout}>
+          <Icon><MdLogout /></Icon>
+          <Text>ログアウト</Text>
+        </ItemButton>
+      </Section>
+    </Container>) || <></>
   )
 }
 

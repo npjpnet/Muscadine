@@ -21,6 +21,7 @@ export default Header
 const Container = styled.header`
   display: flex;
   justify-content: space-between;
+  gap: 10px;
   padding: 10px 10%;
   background-color: var(--primary-color);
   color: #ffffff;
