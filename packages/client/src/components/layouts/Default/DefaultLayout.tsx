@@ -60,7 +60,7 @@ const Main = styled.section`
   grid-template-columns: 20% 1fr;
 
   @media screen and (max-width: 840px) {
-  padding: 20px;
+    padding: 20px;
   }
 `
 const MenuWrap = styled.section`
