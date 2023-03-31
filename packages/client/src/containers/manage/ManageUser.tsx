@@ -78,11 +78,11 @@ const subTeamOption = [
     text: 'D2/システムセクション'
   },
   {
-    value: 'pbTmVpaSc',
+    value: 'd2TmDesSc',
     text: 'D2/デザインセクション'
   },
   {
-    value: 'pbTmVpaSc',
+    value: 'd2TmNetSc',
     text: 'D2/ネットワークセクション'
   }
 ]
