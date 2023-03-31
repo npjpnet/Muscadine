@@ -194,7 +194,7 @@ const ManageUser: React.FC = () => {
               </FormItem>
               <FormItem>
                 <FormLabel>生年月日</FormLabel>
-                <FormInput value={userData.birthday} onChange={e => setUserData(s => (s && { ...s, birthday: e.target.value }))} />
+                <FormInput type="date" value={userData.birthday} onChange={e => setUserData(s => (s && { ...s, birthday: e.target.value }))} />
               </FormItem>
             </FormSection>
           </Column>
