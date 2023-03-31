@@ -1,10 +1,16 @@
 import { css } from 'styled-components'
 
 const buttonStyle = css`
-  padding: 10px 20px;
+  padding: 8px 20px;
+  margin-left: 10px;
+  &:first-child {
+    margin-left: 0;
+  }
+
   background-color: var(--primary-color);
+  border: 2px solid var(--primary-color);
   color: #ffffff;
-  border: none;
+
   font: inherit;
   font-weight: bold;
   cursor: pointer;
@@ -14,8 +20,10 @@ const buttonStyle = css`
   }
 
   &:disabled {
-    background-color: #c0c0c0;
+    background-color: #e0e0e0;
+    border: 2px solid #c0c0c0;
     color: #808080;
+    cursor: unset;
   }
 `
 

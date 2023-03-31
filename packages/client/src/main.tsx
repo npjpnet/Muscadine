@@ -10,7 +10,7 @@ import CustomStyle from './styles/Custom'
 
 import LoginComponent from './containers/Login'
 import MyPageTopComponent from './containers/mypage/Top'
-import MyPageRequestDocumentComponent from './containers/mypage/RequestDocument'
+import MyPageRequestDocumentComponent from './containers/mypage/requestDocuments/RequestDocument'
 import MyPageRequestExpenseComponent from './containers/mypage/RequestExpense'
 import MyPageEventHistoryComponent from './containers/mypage/EventHistory'
 import MyPageSkillBadgesComponent from './containers/mypage/SkillBadges'

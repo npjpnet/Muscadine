@@ -6,6 +6,8 @@ import DefaultLayout from '../../components/layouts/Default/DefaultLayout'
 import useFirebase from '../../hooks/useFirebase'
 import useUser from '../../hooks/useUser'
 
+import shared from '@muscadine/shared'
+
 const MyPageTop: React.FC = () => {
   const { user } = useFirebase()
   const {
@@ -138,11 +140,11 @@ const MyPageTop: React.FC = () => {
                 </tr>
                 <tr>
                   <th>親所属</th>
-                  <td>{userMetaData.team.main}</td>
+                  <td>{shared.constants.mainTeam[userMetaData.team.mainId]}</td>
                 </tr>
                 <tr>
                   <th>子所属</th>
-                  <td>{userMetaData.team.sub}</td>
+                  <td>{(userMetaData.team.subId && shared.constants.subTeam[userMetaData.team.subId]) ?? '-'}</td>
                 </tr>
                 <tr>
                   <th>補職</th>

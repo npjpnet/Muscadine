@@ -36,8 +36,8 @@ const userMetaConveter: FirestoreDB.FirestoreDataConverter<MuscadineUserMeta> = 
       code: data.code,
       idCardIssuedCount: data.idCardIssuedCount,
       team: {
-        main: data.team.main,
-        sub: data.team.sub,
+        mainId: data.team.mainId,
+        subId: data.team.subId,
         remarks: data.team.remarks
       },
       services: {

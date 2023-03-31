@@ -18,8 +18,8 @@ export interface MuscadineUserMeta {
   code: string
   idCardIssuedCount: number
   team: {
-    main: string
-    sub: string
+    mainId: string
+    subId?: string
     remarks: string
   }
   services: {

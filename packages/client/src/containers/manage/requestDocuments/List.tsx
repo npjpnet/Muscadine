@@ -1,10 +1,16 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { type MuscadineDocumentRequestDoc } from 'muscadine'
+import type { MuscadineRequestStatus, MuscadineDocumentRequestDoc } from 'muscadine'
 
 import useRequestDocument from '../../../hooks/useRequestDocument'
 
+import { getTypeTextByValue } from '../../mypage/requestDocuments/StepContainer'
+
 import DefaultLayout from '../../../components/layouts/Default/DefaultLayout'
+
+const statusTexts = ['未確認', '承認', '却下', '処理済み']
+const getStatusText: (status: MuscadineRequestStatus) => string =
+  (status) => statusTexts[status]
 
 const ManageRequestDocument: React.FC = () => {
   const { getDocumentRequests } = useRequestDocument()
@@ -57,8 +63,8 @@ const ManageRequestDocument: React.FC = () => {
           {queriedRequests && Object.entries(queriedRequests).map(([id, request]) => <tr key={id}>
             <td><Link to={`/manage/request-documents/${id}`}>{id}</Link></td>
             <td>{request.userId}</td>
-            <td>{request.type}</td>
-            <td>{request.status}</td>
+            <td>{getTypeTextByValue(request.type)}</td>
+            <td>{getStatusText(request.status)}</td>
             <td>{new Date(request.timestamp).toLocaleString()}</td>
           </tr>)}
         </tbody>
