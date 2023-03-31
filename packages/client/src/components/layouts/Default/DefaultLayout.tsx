@@ -58,6 +58,10 @@ const Main = styled.section`
   padding: 20px 10%;
   display: grid;
   grid-template-columns: 20% 1fr;
+
+  @media screen and (max-width: 840px) {
+  padding: 20px;
+  }
 `
 const MenuWrap = styled.section`
 `

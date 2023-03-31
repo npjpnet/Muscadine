@@ -205,6 +205,10 @@ const Layout = styled.section`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
+
+  @media screen and (max-width: 840px) {
+    grid-template-columns: auto;
+  }
 `
 
 const CardContainer = styled.section<{ grade: Grade }>`
