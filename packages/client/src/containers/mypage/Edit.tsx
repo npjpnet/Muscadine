@@ -132,6 +132,10 @@ const Edit: React.FC = () => {
                 <FormLabel>住所</FormLabel>
                 <FormInput value={userData.address} onChange={e => setUserData(s => (s && { ...s, address: e.target.value }))} />
               </FormItem>
+              <FormItem>
+                <FormLabel>生年月日</FormLabel>
+                <FormInput type="date" value={userData.birthday} onChange={e => setUserData(s => (s && { ...s, birthday: e.target.value }))} />
+              </FormItem>
             </FormSection>
           </Column>
           <Column>

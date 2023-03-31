@@ -15,6 +15,7 @@ const userConveter: FirestoreDB.FirestoreDataConverter<MuscadineUserDoc> = {
       telephone: user.telephone,
       postalCode: user.postalCode,
       address: user.address,
+      birthday: user.birthday,
       discordTag: user.discordTag,
       canUseRealNameForDisplay: user.canUseRealNameForDisplay,
       allowShownFace: user.allowShownFace
@@ -34,6 +35,7 @@ const userConveter: FirestoreDB.FirestoreDataConverter<MuscadineUserDoc> = {
       telephone: data.telephone,
       postalCode: data.postalCode,
       address: data.address,
+      birthday: data.birthday,
       discordTag: data.discordTag,
       canUseRealNameForDisplay: data.canUseRealNameForDisplay,
       allowShownFace: data.allowShownFace

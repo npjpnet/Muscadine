@@ -10,6 +10,7 @@ export interface MuscadineUser {
   telephone: string
   postalCode: string
   address: string
+  birthday: string
   discordTag: string
   canUseRealNameForDisplay: boolean
   allowShownFace: boolean
