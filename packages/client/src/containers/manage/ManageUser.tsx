@@ -302,6 +302,17 @@ const ManageUser: React.FC = () => {
               </FormItem>
             </FormSection>
           </Column>
+          <Column>
+            <h4>メンバーIDカード</h4>
+            <FormSection>
+              <FormItem>
+                <FormLabel>メンバーIDカード発行回数</FormLabel>
+                <FormInput
+                  value={userMeta.idCardIssuedCount}
+                  onChange={e => setUserMeta(s => (s && { ...s, idCardIssuedCount: Number(e.target.value) }))} />
+              </FormItem>
+            </FormSection>
+          </Column>
         </Layout>
       </>}
     </DefaultLayout>
