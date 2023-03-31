@@ -10,11 +10,13 @@ import CustomStyle from './styles/Custom'
 
 import LoginComponent from './containers/Login'
 import MyPageTopComponent from './containers/mypage/Top'
+import MyPageEditComponent from './containers/mypage/Edit'
 import MyPageRequestDocumentComponent from './containers/mypage/requestDocuments/RequestDocument'
 import MyPageRequestExpenseComponent from './containers/mypage/RequestExpense'
 import MyPageEventHistoryComponent from './containers/mypage/EventHistory'
 import MyPageSkillBadgesComponent from './containers/mypage/SkillBadges'
 import ManageTopComponent from './containers/manage/Top'
+import ManageUserComponent from './containers/manage/ManageUser'
 import ManageRequestDocumentListComponent from './containers/manage/requestDocuments/List'
 import ManageRequestDocumentDetailComponent from './containers/manage/requestDocuments/Detail'
 import ManageRequestExpenseComponent from './containers/manage/RequestExpense'
@@ -36,6 +38,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <MyPageTopComponent />
+      },
+      {
+        path: 'edit',
+        element: <MyPageEditComponent />
       },
       {
         path: 'login',
@@ -80,6 +86,15 @@ const router = createBrowserRouter([
           {
             path: 'request-expenses',
             element: <ManageRequestExpenseComponent />
+          },
+          {
+            path: 'user',
+            children: [
+              {
+                path: ':userId',
+                element: <ManageUserComponent />
+              }
+            ]
           }
         ]
       }

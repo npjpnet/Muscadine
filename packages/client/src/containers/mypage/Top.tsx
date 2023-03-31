@@ -177,6 +177,10 @@ const MyPageTop: React.FC = () => {
                     <th>発行回数</th>
                     <td>{userMetaData.idCardIssuedCount}回</td>
                   </tr>
+                  <tr>
+                    <th>発行時コメント</th>
+                    <td>{idCardHistory.remarks || '(空欄)'}</td>
+                  </tr>
                 </tbody>
               </table>
               : <p>IDカードは発行されていません</p>}

@@ -5,6 +5,7 @@ import type { MuscadineAccessLevel } from 'muscadine'
 import {
   MdLogout,
   MdAccountBox,
+  MdEdit,
   MdStars,
   MdContactPage,
   MdReceipt,
@@ -36,6 +37,12 @@ const sections: Array<{
           to: '/',
           icon: <MdAccountBox />,
           text: 'プロフィール'
+        },
+        {
+          id: 'edit',
+          to: '/edit',
+          icon: <MdEdit />,
+          text: '登録情報編集'
         },
         {
           id: 'skillbadges',
@@ -100,23 +107,27 @@ const Menu: React.FC = () => {
     }
 
   return (
-    (isLoggedIn && accessLevel !== undefined && <Container>
-      {sections
-        .filter(section => !section.requiredAccessLevel || (section.requiredAccessLevel <= (accessLevel ?? 0)))
-        .map(section => <Section key={section.id}>
-          <Heading>{section.title}</Heading>
-          {section.items.map(item => <ItemLink key={item.id} to={item.to}>
-            <Icon>{item.icon}</Icon>
-            <Text>{item.text}</Text>
-          </ItemLink>)}
-        </Section>)}
-      <Section>
-        <ItemButton onClick={handleLogout}>
-          <Icon><MdLogout /></Icon>
-          <Text>ログアウト</Text>
-        </ItemButton>
-      </Section>
-    </Container>) || <></>
+    <>
+      <Container>
+        {isLoggedIn && accessLevel !== undefined && <>
+          {sections
+            .filter(section => !section.requiredAccessLevel || (section.requiredAccessLevel <= (accessLevel ?? 0)))
+            .map(section => <Section key={section.id}>
+              <Heading>{section.title}</Heading>
+              {section.items.map(item => <ItemLink key={item.id} to={item.to}>
+                <Icon>{item.icon}</Icon>
+                <Text>{item.text}</Text>
+              </ItemLink>)}
+            </Section>)}
+        </>}
+        {isLoggedIn && <Section>
+          <ItemButton onClick={handleLogout}>
+            <Icon><MdLogout /></Icon>
+            <Text>ログアウト</Text>
+          </ItemButton>
+        </Section>}
+      </Container>
+    </>
   )
 }
 
