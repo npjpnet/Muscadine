@@ -116,7 +116,7 @@ const Menu: React.FC = () => {
           <Text>ログアウト</Text>
         </ItemButton>
       </Section>
-    </Container>) ?? <></>
+    </Container>) || <></>
   )
 }
 
