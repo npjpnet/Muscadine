@@ -37,6 +37,7 @@ h6 { font-size: 0.9em; }
 
 a {
   color: var(--primary-color);
+  font-weight: bold;
 }
 
 ul, ol {

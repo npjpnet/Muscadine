@@ -2,7 +2,7 @@ import DefaultLayout from '../../components/layouts/Default/DefaultLayout'
 
 const ManageTop: React.FC = () => {
   return (
-    <DefaultLayout>
+    <DefaultLayout requiredAccessLevel={2}>
       <h1>メンバー一覧</h1>
       <p>
         Muscadineで管理しているメンバー一覧を表示しています。

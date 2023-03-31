@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components'
 import { Link, useNavigate } from 'react-router-dom'
+import type { MuscadineAccessLevel } from 'muscadine'
 
 import {
   MdLogout,
@@ -24,6 +25,7 @@ const sections: Array<{
     icon: React.ReactNode
     text: string
   }>
+  requiredAccessLevel?: MuscadineAccessLevel
 }> = [
     {
       id: 'mypage',
@@ -64,6 +66,7 @@ const sections: Array<{
     {
       id: 'manage',
       title: 'メンバー管理',
+      requiredAccessLevel: 2,
       items: [
         {
           id: 'manageTop',
@@ -89,7 +92,7 @@ const sections: Array<{
 
 const Menu: React.FC = () => {
   const navigate = useNavigate()
-  const { isLoggedIn, logout } = useFirebase()
+  const { isLoggedIn, accessLevel, logout } = useFirebase()
   const handleLogout: () => void =
     () => {
       logout()
@@ -97,21 +100,23 @@ const Menu: React.FC = () => {
     }
 
   return (
-    (isLoggedIn && <Container>
-      {sections.map(section => <Section key={section.id}>
-        <Heading>{section.title}</Heading>
-        {section.items.map(item => <ItemLink key={item.id} to={item.to}>
-          <Icon>{item.icon}</Icon>
-          <Text>{item.text}</Text>
-        </ItemLink>)}
-      </Section>)}
+    (isLoggedIn && accessLevel !== undefined && <Container>
+      {sections
+        .filter(section => !section.requiredAccessLevel || (section.requiredAccessLevel <= (accessLevel ?? 0)))
+        .map(section => <Section key={section.id}>
+          <Heading>{section.title}</Heading>
+          {section.items.map(item => <ItemLink key={item.id} to={item.to}>
+            <Icon>{item.icon}</Icon>
+            <Text>{item.text}</Text>
+          </ItemLink>)}
+        </Section>)}
       <Section>
         <ItemButton onClick={handleLogout}>
           <Icon><MdLogout /></Icon>
           <Text>ログアウト</Text>
         </ItemButton>
       </Section>
-    </Container>) || <></>
+    </Container>) ?? <></>
   )
 }
 

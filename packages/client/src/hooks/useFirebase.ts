@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { type FirebaseError } from 'firebase/app'
+import type { MuscadineAccessLevel } from 'muscadine'
+
 import {
   type Auth,
   type User,
   type UserCredential,
   type Unsubscribe,
+  type IdTokenResult,
   getAuth as getFirebaseAuth,
   signInWithEmailAndPassword,
   signOut,
@@ -20,6 +23,7 @@ import { getFirebaseApp } from '../libs/FirebaseApp'
 interface IUseFirebase {
   isLoggedIn: boolean | undefined
   user: User | null | undefined
+  accessLevel: MuscadineAccessLevel | null | undefined
   getAuth: () => Auth
   loginByEmail: (email: string, password: string) => Promise<UserCredential>
   logout: () => void
@@ -35,6 +39,8 @@ const useFirebase: () => IUseFirebase =
     const [auth, setAuth] = useState<Auth | undefined>()
     const [isLoggedIn, setLoggedIn] = useState<boolean | undefined>()
     const [user, setUser] = useState<User | null | undefined>()
+
+    const [accessLevel, setAccessLevel] = useState<MuscadineAccessLevel | null>()
 
     const getAuth: () => Auth =
       () => {
@@ -106,6 +112,14 @@ const useFirebase: () => IUseFirebase =
         const unSubscribe = onIdTokenChanged(auth, (user) => {
           setUser(user)
           setLoggedIn(!!user)
+
+          if (!user) return
+
+          user.getIdTokenResult()
+            .then((result: IdTokenResult) => setAccessLevel(result.claims.accessLevel))
+            .catch((err) => {
+              throw err
+            })
         })
         return unSubscribe
       }
@@ -114,6 +128,7 @@ const useFirebase: () => IUseFirebase =
     return {
       isLoggedIn,
       user,
+      accessLevel,
       getAuth,
       loginByEmail,
       logout,

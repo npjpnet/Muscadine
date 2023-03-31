@@ -1,4 +1,4 @@
-import type { MuscadineDocumentRequest, MuscadineDocumentRequestDoc } from 'muscadine'
+import type { MuscadineDocumentRequest, MuscadineDocumentRequestDoc, MuscadineRequestStatus } from 'muscadine'
 
 import * as FirestoreDB from 'firebase/firestore'
 import useFirebase from './useFirebase'
@@ -27,6 +27,8 @@ const requestConverter: FirestoreDB.FirestoreDataConverter<MuscadineDocumentRequ
 interface IUseRequestDocument {
   createDocumentRequest: (userId: string, request: MuscadineDocumentRequest) => Promise<string>
   getDocumentRequests: () => Promise<Record<string, MuscadineDocumentRequestDoc>>
+  getDocumentRequestById: (requestId: string) => Promise<MuscadineDocumentRequestDoc>
+  updateDocumentRequestStatusById: (requestId: string, status: MuscadineRequestStatus) => Promise<void>
 }
 const useRequestDocument: () => IUseRequestDocument =
   () => {
@@ -60,9 +62,34 @@ const useRequestDocument: () => IUseRequestDocument =
         return docs
       }
 
+    const getDocumentRequestById: (requestId: string) => Promise<MuscadineDocumentRequestDoc> =
+      async (requestId: string) => {
+        const db = getFirestore()
+        const requestRef = FirestoreDB.doc(db, `/documentRequests/${requestId}`)
+          .withConverter(requestConverter)
+        const requestDoc = await FirestoreDB.getDoc(requestRef)
+        if (!requestDoc.exists()) {
+          throw new Error('documentRequest not found')
+        }
+        return requestDoc.data()
+      }
+
+    const updateDocumentRequestStatusById: (requestId: string, status: MuscadineRequestStatus) => Promise<void> =
+      async (requestId, status) => {
+        const db = getFirestore()
+        const requestRef = FirestoreDB.doc(db, `/documentRequests/${requestId}`)
+          .withConverter(requestConverter)
+        FirestoreDB.updateDoc(requestRef, { status })
+          .catch(err => {
+            throw err
+          })
+      }
+
     return {
       createDocumentRequest,
-      getDocumentRequests
+      getDocumentRequests,
+      getDocumentRequestById,
+      updateDocumentRequestStatusById
     }
   }
 

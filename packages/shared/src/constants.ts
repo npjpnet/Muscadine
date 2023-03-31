@@ -1,4 +1,7 @@
-const constants = {
+const constants: {
+  mainTeam: Record<string, string>
+  subTeam: Record<string, string>
+} = {
   mainTeam: {
     hqTm: '総務部',
     plTm: '企画構成チーム',

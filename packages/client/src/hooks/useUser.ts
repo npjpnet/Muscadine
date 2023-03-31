@@ -1,15 +1,17 @@
-import type { MuscadineIDCardHistory, MuscadineUser, MuscadineUserMeta } from 'muscadine'
+import type { MuscadineIDCardHistory, MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
 
 import * as FirestoreDB from 'firebase/firestore'
 import useFirebase from './useFirebase'
 
-const userConveter: FirestoreDB.FirestoreDataConverter<MuscadineUser> = {
+const userConveter: FirestoreDB.FirestoreDataConverter<MuscadineUserDoc> = {
   toFirestore: () => {
     return {}
   },
   fromFirestore: (snapshot: FirestoreDB.QueryDocumentSnapshot) => {
+    const userId = snapshot.id
     const data = snapshot.data()
     return {
+      userId,
       name: data.name,
       nameYomi: data.nameYomi,
       nameAlphabet: data.nameAlphabet,
@@ -51,8 +53,13 @@ const userMetaConveter: FirestoreDB.FirestoreDataConverter<MuscadineUserMeta> = 
   }
 }
 const idCardHistoryConveter: FirestoreDB.FirestoreDataConverter<MuscadineIDCardHistory> = {
-  toFirestore: () => {
-    return {}
+  toFirestore: (history: MuscadineIDCardHistory) => {
+    return {
+      cardNumber: history.cardNumber,
+      remarks: history.remarks,
+      canUseRealNameForDisplay: history.canUseRealNameForDisplay,
+      allowShownFace: history.allowShownFace
+    }
   },
   fromFirestore: (snapshot: FirestoreDB.QueryDocumentSnapshot) => {
     const data = snapshot.data()
@@ -66,14 +73,15 @@ const idCardHistoryConveter: FirestoreDB.FirestoreDataConverter<MuscadineIDCardH
 }
 
 interface IUseUser {
-  getUserById: (userId: string) => Promise<MuscadineUser>
+  getUserById: (userId: string) => Promise<MuscadineUserDoc>
   getUserMetaByUserId: (userId: string) => Promise<MuscadineUserMeta>
   getIDCardHistoryByUserId: (userId: string) => Promise<MuscadineIDCardHistory[]>
+  updateIDCardHistoryByUserId: (userId: string, history: MuscadineIDCardHistory) => Promise<void>
 }
 const useUser: () => IUseUser = () => {
   const { getFirestore } = useFirebase()
 
-  const getUserById: (userId: string) => Promise<MuscadineUser> =
+  const getUserById: (userId: string) => Promise<MuscadineUserDoc> =
     async (userId) => {
       const db = getFirestore()
       const userRef = FirestoreDB
@@ -111,10 +119,27 @@ const useUser: () => IUseUser = () => {
       return historyDocs
     }
 
+  const updateIDCardHistoryByUserId: (userId: string, history: MuscadineIDCardHistory) => Promise<void> =
+    async (userId, history) => {
+      const db = getFirestore()
+      const userMetaRef = FirestoreDB.doc(db, `/userMetas/${userId}`)
+        .withConverter(userMetaConveter)
+      const historyRef = FirestoreDB.collection(db, `/userMetas/${userId}/idcards`)
+        .withConverter(idCardHistoryConveter)
+      FirestoreDB.addDoc(historyRef, history)
+        .then(async () => await FirestoreDB.updateDoc(userMetaRef, {
+          idCardIssuedCount: FirestoreDB.increment(1)
+        }))
+        .catch(err => {
+          throw err
+        })
+    }
+
   return {
     getUserById,
     getUserMetaByUserId,
-    getIDCardHistoryByUserId
+    getIDCardHistoryByUserId,
+    updateIDCardHistoryByUserId
   }
 }
 export default useUser

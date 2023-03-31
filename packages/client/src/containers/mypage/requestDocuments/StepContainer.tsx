@@ -17,6 +17,10 @@ export const requestTypes = [
 ]
 export const requestReasons = [
   {
+    value: 'new',
+    text: '新規発行'
+  },
+  {
     value: 'lost',
     text: '紛失・盗難'
   },

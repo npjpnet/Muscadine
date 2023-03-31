@@ -1,16 +1,18 @@
 import styled from 'styled-components'
 import useFirebase from '../../../hooks/useFirebase'
 
+const roleTexts = ['ユーザ', 'リーダ', '管理者']
+
 const Header: React.FC = () => {
-  const { user } = useFirebase()
+  const { user, accessLevel } = useFirebase()
 
   return (
     <Container>
       <Brand>
         Muscadine
       </Brand>
-      {user && <Account>
-        {user.email} としてログイン中
+      {user && accessLevel !== undefined && <Account>
+        {user.email} としてログイン中 ({(roleTexts[accessLevel ?? 0])})
       </Account>}
     </Container>
   )

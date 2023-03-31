@@ -1,3 +1,5 @@
+export type MuscadineAccessLevel = 0 | 1 | 2
+
 export interface MuscadineUser {
   name: string
   nameYomi: string
@@ -11,6 +13,9 @@ export interface MuscadineUser {
   discordTag: string
   canUseRealNameForDisplay: boolean
   allowShownFace: boolean
+}
+export type MuscadineUserDoc = MuscadineUser & {
+  userId?: string
 }
 
 export interface MuscadineUserMeta {
