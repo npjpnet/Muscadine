@@ -103,6 +103,10 @@ const MyPageTop: React.FC = () => {
                   <th>住所</th>
                   <td>{userData.address}</td>
                 </tr>
+                <tr>
+                  <th>生年月日</th>
+                  <td>{userData.birthday}</td>
+                </tr>
               </tbody>
             </table>
 
