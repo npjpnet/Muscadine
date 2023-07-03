@@ -37,6 +37,34 @@ const Input: React.FC<Props> = (props) => {
       props.nextStep(request)
     }
 
+  const remarksBlock = useMemo(() => {
+    if (request.type === 'id-card') {
+      return (
+        <>
+          <p>
+            <b>IDカードに印字する名前、及び、顔出しの可否については「登録情報編集」で変更してください。</b>
+          </p>
+          <FormItem>
+            <FormLabel>表示名</FormLabel>
+            <FormInput value={props.displayName} disabled />
+          </FormItem>
+          <FormItem>
+            <FormLabel>顔出し可否</FormLabel>
+            <FormSelect disabled>
+              <option>顔出し{props.allowShownFace ? 'OK' : 'NG'}</option>
+            </FormSelect>
+          </FormItem>
+        </>
+      )
+    } else if (request.type === 'business-card') {
+      return (
+        <p>
+          <b>名刺に印字される名前は本名のみとなります。</b>
+        </p>
+      )
+    }
+  }, [request.type])
+
   const allValid = useMemo(() => {
     return request.type && request.reason
   }, [request])
@@ -52,6 +80,11 @@ const Input: React.FC<Props> = (props) => {
             value={request.type}
             onChange={(type) => setRequest(s => ({ ...s, type }))} />
         </FormItem>
+      </FormSection>
+      <FormSection>
+        {remarksBlock}
+      </FormSection>
+      <FormSection>
         <FormItem>
           <FormLabel>申請理由</FormLabel>
           <FormRadio
@@ -64,21 +97,6 @@ const Input: React.FC<Props> = (props) => {
           <FormLabel>備考</FormLabel>
           <FormTextarea value={request.remarks} onChange={e => setRequest(s => ({ ...s, remarks: e.target.value }))} />
         </FormItem>
-      </FormSection>
-      <FormSection>
-        <FormItem>
-          <FormLabel>表示名</FormLabel>
-          <FormInput value={props.displayName} disabled />
-        </FormItem>
-        <FormItem>
-          <FormLabel>顔出し可否</FormLabel>
-          <FormSelect disabled>
-            <option>顔出し{props.allowShownFace ? 'OK' : 'NG'}</option>
-          </FormSelect>
-        </FormItem>
-        <p>
-          <b>書類に印字する名前、及び、顔出しの可否については「登録情報編集」で変更してください。</b>
-        </p>
       </FormSection>
       <FormSection>
         <FormItem>
