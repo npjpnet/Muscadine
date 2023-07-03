@@ -12,6 +12,8 @@ import { requestTypes, requestReasons } from './StepContainer'
 import FormInput from '../../../components/form/FormInput'
 import FormSelect from '../../../components/form/FormSelect'
 
+const remarksMinLength = 10
+
 interface Props {
   request: MuscadineDocumentRequest | undefined
   displayName: string | undefined
@@ -65,8 +67,11 @@ const Input: React.FC<Props> = (props) => {
     }
   }, [request.type])
 
+  const normalizeRemarks = useMemo(() => request.remarks.trim().replaceAll(/\s/g, ''), [request.remarks])
+  const isRemarksValid = useMemo(() => normalizeRemarks.length >= 10, [normalizeRemarks])
+
   const allValid = useMemo(() => {
-    return request.type && request.reason
+    return request.type && request.reason && isRemarksValid
   }, [request])
 
   return (
@@ -95,7 +100,8 @@ const Input: React.FC<Props> = (props) => {
         </FormItem>
         <FormItem>
           <FormLabel>備考</FormLabel>
-          <FormTextarea value={request.remarks} onChange={e => setRequest(s => ({ ...s, remarks: e.target.value }))} />
+          <FormTextarea value={request.remarks} onChange={e => setRequest(s => ({ ...s, remarks: e.target.value }))} placeholder="発行申請する理由を10文字以上で簡潔に記入してください。" />
+          <FormLabel>{normalizeRemarks.length} / {remarksMinLength}</FormLabel>
         </FormItem>
       </FormSection>
       <FormSection>
