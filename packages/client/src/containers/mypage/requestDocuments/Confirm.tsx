@@ -6,6 +6,8 @@ import FormButton from '../../../components/form/FormButton'
 
 interface Props {
   request: MuscadineDocumentRequest | undefined
+  displayName: string | undefined
+  allowShownFace: boolean | undefined
   prevStep: () => void
   submit: () => void
 }
@@ -26,6 +28,14 @@ const Confirm: React.FC<Props> = (props) => {
           <tr>
             <th>備考</th>
             <td>{props.request.remarks || '(空欄)'}</td>
+          </tr>
+          <tr>
+            <th>表示名</th>
+            <td>{props.displayName}</td>
+          </tr>
+          <tr>
+            <th>顔出し可否</th>
+            <td>顔出し{props.allowShownFace ? 'OK' : 'NG'}</td>
           </tr>
         </tbody>
       </table>

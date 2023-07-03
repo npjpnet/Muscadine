@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
-import type { MuscadineDocumentRequest } from 'muscadine'
+import { type MuscadineDocumentRequest } from 'muscadine'
 
 import InputComponent from './Input'
 import ConfirmComponent from './Confirm'
 import SuccessComponent from './Success'
+import useUser from '../../../hooks/useUser'
+import useFirebase from '../../../hooks/useFirebase'
 
 export const requestTypes = [
   {
@@ -55,11 +57,17 @@ interface Props {
   submit: (request: MuscadineDocumentRequest) => Promise<string | undefined>
 }
 const StepContainer: React.FC<Props> = (props) => {
+  const { getUserById } = useUser()
+  const { user } = useFirebase()
+
   const [Steps, setSteps] = useState<JSX.Element[]>()
   const [step, setStep] = useState(0)
 
   const [request, setRequest] = useState<MuscadineDocumentRequest>()
   const [requestId, setRequestId] = useState<string>()
+
+  const [displayName, setDisplayName] = useState<string>()
+  const [allowShownFace, setAllowShownFace] = useState<boolean>()
 
   const handleSubmit: () => void =
     () => {
@@ -81,18 +89,46 @@ const StepContainer: React.FC<Props> = (props) => {
       setStep(0)
     }
 
+  const onFetchData: () => void =
+    () => {
+      const fetchDataAsync: () => Promise<void> =
+        async () => {
+          if (!user) return
+          const fetchedUser = await getUserById(user.uid)
+
+          const fetchedDisplayName = fetchedUser.canUseRealNameForDisplay
+            ? fetchedUser.realName
+            : fetchedUser.name
+
+          setDisplayName(fetchedDisplayName)
+          setAllowShownFace(fetchedUser.allowShownFace)
+        }
+      fetchDataAsync()
+        .catch(err => { throw err })
+    }
+  useEffect(onFetchData, [user])
+
   const onInitialize: () => void =
     () => {
       setSteps([
-        <InputComponent request={request} nextStep={(req) => {
-          setRequest(req)
-          setStep(1)
-        }} />,
-        <ConfirmComponent request={request} prevStep={() => setStep(0)} submit={handleSubmit} />,
+        <InputComponent
+          request={request}
+          displayName={displayName}
+          allowShownFace={allowShownFace}
+          nextStep={(req) => {
+            setRequest(req)
+            setStep(1)
+          }} />,
+        <ConfirmComponent
+          request={request}
+          displayName={displayName}
+          allowShownFace={allowShownFace}
+          prevStep={() => setStep(0)}
+          submit={handleSubmit} />,
         <SuccessComponent requestId={requestId} request={request} initialize={handleInitialize} />
       ])
     }
-  useEffect(onInitialize, [step, request])
+  useEffect(onInitialize, [step, request, displayName, allowShownFace])
 
   return (
     <>

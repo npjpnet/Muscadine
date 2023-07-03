@@ -9,9 +9,13 @@ import FormSection from '../../../components/form/FormSection'
 import FormTextarea from '../../../components/form/FormTextarea'
 
 import { requestTypes, requestReasons } from './StepContainer'
+import FormInput from '../../../components/form/FormInput'
+import FormSelect from '../../../components/form/FormSelect'
 
 interface Props {
   request: MuscadineDocumentRequest | undefined
+  displayName: string | undefined
+  allowShownFace: boolean | undefined
   nextStep: (request: MuscadineDocumentRequest) => void
 }
 const Input: React.FC<Props> = (props) => {
@@ -60,6 +64,21 @@ const Input: React.FC<Props> = (props) => {
           <FormLabel>備考</FormLabel>
           <FormTextarea value={request.remarks} onChange={e => setRequest(s => ({ ...s, remarks: e.target.value }))} />
         </FormItem>
+      </FormSection>
+      <FormSection>
+        <FormItem>
+          <FormLabel>表示名</FormLabel>
+          <FormInput value={props.displayName} disabled />
+        </FormItem>
+        <FormItem>
+          <FormLabel>顔出し可否</FormLabel>
+          <FormSelect disabled>
+            <option>顔出し{props.allowShownFace ? 'OK' : 'NG'}</option>
+          </FormSelect>
+        </FormItem>
+        <p>
+          <b>書類に印字する名前、及び、顔出しの可否については「登録情報編集」で変更してください。</b>
+        </p>
       </FormSection>
       <FormSection>
         <FormItem>

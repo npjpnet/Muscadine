@@ -50,7 +50,7 @@ const ManageRequestDetail: React.FC = () => {
   const nextIdCardNumber = useMemo(() => {
     if (!request || request.type !== 'id-card') return
     if (!userMeta) return
-    const year = new Date(request.timestamp).getFullYear()
+    const year = new Date().getFullYear()
     const nextIssuedCount = userMeta.idCardIssuedCount + 1
     const issuedCountText = nextIssuedCount.toString().padStart(2, '0')
     const code = `${year}${userMeta.code}${issuedCountText}`
