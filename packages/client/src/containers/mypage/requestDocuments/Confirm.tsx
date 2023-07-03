@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import type { MuscadineDocumentRequest } from 'muscadine'
 import { getTypeTextByValue, getReasonTextByValue } from './StepContainer'
 import FormSection from '../../../components/form/FormSection'
@@ -12,6 +13,21 @@ interface Props {
   submit: () => void
 }
 const Confirm: React.FC<Props> = (props) => {
+  const remarksBlock = useMemo(() => {
+    if (props.request?.type === 'id-card') {
+      return <>
+        <tr>
+          <th>表示名</th>
+          <td>{props.displayName}</td>
+        </tr>
+        <tr>
+          <th>顔出し可否</th>
+          <td>顔出し{props.allowShownFace ? 'OK' : 'NG'}</td>
+        </tr>
+      </>
+    }
+  }, [props.request?.type])
+
   return (
     (props.request && <>
       <h3>内容確認</h3>
@@ -29,14 +45,7 @@ const Confirm: React.FC<Props> = (props) => {
             <th>備考</th>
             <td>{props.request.remarks || '(空欄)'}</td>
           </tr>
-          <tr>
-            <th>表示名</th>
-            <td>{props.displayName}</td>
-          </tr>
-          <tr>
-            <th>顔出し可否</th>
-            <td>顔出し{props.allowShownFace ? 'OK' : 'NG'}</td>
-          </tr>
+          {remarksBlock}
         </tbody>
       </table>
       <FormSection>
