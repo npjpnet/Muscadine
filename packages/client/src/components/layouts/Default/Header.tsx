@@ -9,7 +9,7 @@ const Header: React.FC = () => {
   return (
     <Container>
       <Brand>
-        Muscadine
+        Muscadine β
       </Brand>
       {user && accessLevel !== undefined && <Account>
         {user.email} としてログイン中 ({(roleTexts[accessLevel ?? 0])})

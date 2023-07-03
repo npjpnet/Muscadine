@@ -5,7 +5,7 @@ html, body, #root {
   height: 100%;
 }
 body {
-  font-family: 'BIZ UDPGothic', system-ui, sans-serif;
+  font-family: 'Noto Sans JP', system-ui, sans-serif;
 }
 
 * {

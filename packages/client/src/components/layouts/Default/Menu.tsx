@@ -44,30 +44,30 @@ const sections: Array<{
           icon: <MdEdit />,
           text: '登録情報編集'
         },
-        {
-          id: 'skillbadges',
-          to: '/skillbadges',
-          icon: <MdStars />,
-          text: 'スキルバッジ'
-        },
-        {
-          id: 'eventHistory',
-          to: '/event-history',
-          icon: <MdHistory />,
-          text: 'イベント参加履歴(TBD)'
-        },
+        // {
+        //   id: 'skillbadges',
+        //   to: '/skillbadges',
+        //   icon: <MdStars />,
+        //   text: 'スキルバッジ'
+        // },
+        // {
+        //   id: 'eventHistory',
+        //   to: '/event-history',
+        //   icon: <MdHistory />,
+        //   text: 'イベント参加履歴(TBD)'
+        // },
         {
           id: 'requestDocuments',
           to: '/request-documents',
           icon: <MdContactPage />,
           text: '書類発行申請'
         },
-        {
-          id: 'requestExpenses',
-          to: '/request-expenses',
-          icon: <MdReceipt />,
-          text: '経費申請(TBD)'
-        }
+        // {
+        //   id: 'requestExpenses',
+        //   to: '/request-expenses',
+        //   icon: <MdReceipt />,
+        //   text: '経費申請(TBD)'
+        // }
       ]
     },
     {
@@ -87,12 +87,12 @@ const sections: Array<{
           icon: <MdInbox />,
           text: '書類発行申請管理'
         },
-        {
-          id: 'manageRequestExpenses',
-          to: '/manage/request-expenses',
-          icon: <MdReceiptLong />,
-          text: '経費申請管理(TBD)'
-        }
+        // {
+        //   id: 'manageRequestExpenses',
+        //   to: '/manage/request-expenses',
+        //   icon: <MdReceiptLong />,
+        //   text: '経費申請管理(TBD)'
+        // }
       ]
     }
   ]
