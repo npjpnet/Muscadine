@@ -44,12 +44,12 @@ const sections: Array<{
           icon: <MdEdit />,
           text: '登録情報編集'
         },
-        // {
-        //   id: 'skillbadges',
-        //   to: '/skillbadges',
-        //   icon: <MdStars />,
-        //   text: 'スキルバッジ'
-        // },
+        {
+          id: 'skillbadges',
+          to: '/skillbadges',
+          icon: <MdStars />,
+          text: 'スキルバッジ'
+        },
         // {
         //   id: 'eventHistory',
         //   to: '/event-history',
