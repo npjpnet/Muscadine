@@ -85,8 +85,8 @@ const ManageRequestDetail: React.FC = () => {
       {(request && userData && userMeta && <>
         {(request.status !== 3) && <FormSection>
           {request.type === 'id-card' && request.status === 1 && <FormItem>
-            <FormLabel>IDカード更新内容コメント</FormLabel>
-            <FormTextarea value={idCardRemarks} onChange={e => setIDCardRemarks(e.target.value)} />
+            <FormLabel>IDカード更新理由</FormLabel>
+            <FormTextarea value={idCardRemarks} onChange={e => setIDCardRemarks(e.target.value)} placeholder='更新理由を簡潔に記入してください' />
           </FormItem>}
           <FormItem>
             {request.status === 0 && <FormButton onClick={() => handleChangeStatus(1)}>承認する</FormButton>}
