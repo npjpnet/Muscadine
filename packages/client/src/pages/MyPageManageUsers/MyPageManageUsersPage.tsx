@@ -35,54 +35,30 @@ const allowShownFaceOption = [
 ]
 const mainTeamOption = [
   {
-    value: 'hqTm',
-    text: '総務部'
+    value: 'pdhq',
+    text: '制作本部'
   },
   {
-    value: 'plTm',
-    text: '企画構成チーム'
-  },
-  {
-    value: 'pbTm',
-    text: '音響配信チーム'
-  },
-  {
-    value: 'd2Tm',
-    text: 'D2(開発デザイン)チーム'
-  },
-  {
-    value: 'dpTm',
-    text: 'Dep.チーム'
-  },
-  {
-    value: 'lgTm',
-    text: 'ロジスティクスチーム'
+    value: 'mghq',
+    text: '管理本部'
   }
 ]
 const subTeamOption = [
   {
-    value: 'pbTmVpaSc',
-    text: '音響配信/音響セクション'
+    value: 'pdhqU',
+    text: '制作本部/制作部'
   },
   {
-    value: 'pbTmBrdSc',
-    text: '音響配信/配信セクション'
+    value: 'pdhqP',
+    text: '制作本部/プロデュース室'
   },
   {
-    value: 'pbTmStgSc',
-    text: '音響配信/ステージセクション'
+    value: 'pdhqD',
+    text: '制作本部/デザイン室'
   },
   {
-    value: 'd2TmSysSc',
-    text: 'D2/システムセクション'
-  },
-  {
-    value: 'd2TmDesSc',
-    text: 'D2/デザインセクション'
-  },
-  {
-    value: 'd2TmNetSc',
-    text: 'D2/ネットワークセクション'
+    value: 'mghqU',
+    text: '管理本部/管理部'
   }
 ]
 
