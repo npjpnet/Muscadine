@@ -23,7 +23,7 @@ interface IUseFirebase {
   accessLevel: MuscadineAccessLevel | null | undefined
   getAuth: () => Auth
   loginByEmailAsync: (email: string, password: string) => Promise<UserCredential>
-  logout: () => void
+  logoutAsync: () => Promise<void>
   createUser: (email: string, password: string) => Promise<User>
   sendPasswordResetURL: (email: string) => void
   getFirestore: () => Firestore
@@ -57,14 +57,12 @@ const useFirebase = (): IUseFirebase => {
     return credential
   }
 
-  const logout = (): void => {
+  const logoutAsync = async (): Promise<void> => {
     const auth = getAuth()
-    signOut(auth)
-      .then(() => {
-        setUser(null)
-        setLoggedIn(false)
-      })
+    await signOut(auth)
       .catch(err => { throw err })
+    setUser(null)
+    setLoggedIn(false)
   }
 
   const createUser = async (email: string, password: string): Promise<User> => {
@@ -111,7 +109,7 @@ const useFirebase = (): IUseFirebase => {
     accessLevel,
     getAuth,
     loginByEmailAsync,
-    logout,
+    logoutAsync,
     createUser,
     sendPasswordResetURL,
     getFirestore,

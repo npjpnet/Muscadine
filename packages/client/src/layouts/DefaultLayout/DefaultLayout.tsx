@@ -1,9 +1,6 @@
-import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-
 import useFirebase from '../../hooks/useFirebase'
-
+import RequiredLogin from '../../libs/RequiredLogin'
 import Header from './Header'
 import Menu from './Menu'
 import type { MuscadineAccessLevel } from 'muscadine'
@@ -14,24 +11,13 @@ interface Props {
   requiredAccessLevel?: MuscadineAccessLevel
 }
 const DefaultLayout: React.FC<Props> = (props) => {
-  const { isLoggedIn, accessLevel, logout } = useFirebase()
-  const navigate = useNavigate()
-
-  useEffect(() => {
-    if (props.allowAnonymous ?? isLoggedIn === undefined) return
-    if (!props.allowAnonymous && !isLoggedIn) {
-      navigate('/login')
-    }
-
-    if (accessLevel === undefined) return
-    if (props.requiredAccessLevel === undefined) return
-    if (props.requiredAccessLevel > (accessLevel ?? 0)) {
-      logout()
-    }
-  }, [isLoggedIn, props.allowAnonymous, props.requiredAccessLevel])
+  const { isLoggedIn } = useFirebase()
 
   return (
     (isLoggedIn !== undefined && <Container>
+      <RequiredLogin
+        allowAnonymous={props.allowAnonymous}
+        requiredAccessLevel={props.requiredAccessLevel} />
       <Header />
       <Main>
         <MenuWrap>

@@ -1,3 +1,4 @@
+import { useCallback } from 'react'
 import {
   MdLogout,
   MdAccountBox,
@@ -94,12 +95,13 @@ const sections: Array<{
 
 const Menu: React.FC = () => {
   const navigate = useNavigate()
-  const { isLoggedIn, accessLevel, logout } = useFirebase()
-  const handleLogout: () => void =
-    () => {
-      logout()
-      navigate('/login')
-    }
+  const { isLoggedIn, accessLevel, logoutAsync } = useFirebase()
+
+  const handleLogout = useCallback(() => {
+    logoutAsync()
+      .then(() => navigate('/login'))
+      .catch(err => { throw err })
+  }, [])
 
   return (
     <>
