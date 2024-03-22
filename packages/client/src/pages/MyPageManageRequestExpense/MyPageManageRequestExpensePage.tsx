@@ -1,4 +1,4 @@
-import DefaultLayout from '../../components/layouts/DefaultLayout/DefaultLayout'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 
 const MyPageManageRequestExpensePage: React.FC = () => {
   return (

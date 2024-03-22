@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import shared from '@muscadine/shared'
-import DefaultLayout from '../../components/layouts/DefaultLayout/DefaultLayout'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useUser from '../../hooks/useUser'
 import type { MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
 

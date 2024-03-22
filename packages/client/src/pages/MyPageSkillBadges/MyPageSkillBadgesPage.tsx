@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import DefaultLayout from '../../components/layouts/DefaultLayout/DefaultLayout'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useFirebase from '../../hooks/useFirebase'
 import useSkillbadge, { type Grade, GradeText } from '../../hooks/useSkillbadge'
 

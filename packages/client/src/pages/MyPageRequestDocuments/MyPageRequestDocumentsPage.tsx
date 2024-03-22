@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import DefaultLayout from '../../components/layouts/DefaultLayout/DefaultLayout'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useFirebase from '../../hooks/useFirebase'
 import useRequestDocument from '../../hooks/useRequestDocument'
 

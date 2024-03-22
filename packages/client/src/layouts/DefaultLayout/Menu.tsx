@@ -9,7 +9,7 @@ import {
 } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import styled, { css } from 'styled-components'
-import useFirebase from '../../../hooks/useFirebase'
+import useFirebase from '../../hooks/useFirebase'
 import type { MuscadineAccessLevel } from 'muscadine'
 
 const sections: Array<{

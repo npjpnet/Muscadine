@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 
-import useFirebase from '../../../hooks/useFirebase'
+import useFirebase from '../../hooks/useFirebase'
 
 import Header from './Header'
 import Menu from './Menu'

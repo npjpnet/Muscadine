@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import DefaultLayout from '../../components/layouts/DefaultLayout/DefaultLayout'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useRequestDocument from '../../hooks/useRequestDocument'
 import useUser from '../../hooks/useUser'
 import { getTypeTextByValue } from '../MyPageRequestDocuments/StepContainer/StepContainer'

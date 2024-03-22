@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import useFirebase from '../../../hooks/useFirebase'
+import useFirebase from '../../hooks/useFirebase'
 
 const roleTexts = ['ユーザ', 'リーダ', '管理者']
 

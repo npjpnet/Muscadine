@@ -4,7 +4,7 @@ import FormItem from '../../components/form/FormItem'
 import FormLabel from '../../components/form/FormLabel'
 import FormSection from '../../components/form/FormSection'
 import FormTextarea from '../../components/form/FormTextarea'
-import DefaultLayout from '../../components/layouts/DefaultLayout/DefaultLayout'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 
 const MyPageRequestExpensePage: React.FC = () => {
   return (

@@ -9,7 +9,7 @@ import FormLabel from '../../components/form/FormLabel'
 import FormRadio from '../../components/form/FormRadio'
 import FormSection from '../../components/form/FormSection'
 import FormSelect from '../../components/form/FormSelect'
-import DefaultLayout from '../../components/layouts/DefaultLayout/DefaultLayout'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useUser from '../../hooks/useUser'
 import type { MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
 
