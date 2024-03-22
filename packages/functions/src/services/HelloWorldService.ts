@@ -1,9 +1,12 @@
-import * as functions from 'firebase-functions'
+const helloworld = (): string => {
+  return 'hello world!'
+}
 
-export const helloWorld = functions.https.onRequest(async (req, res) => {
-  res.send('hello world!')
-})
+const ping = (): string => {
+  return 'pong!'
+}
 
-export const ping = functions.https.onRequest(async (req, res) => {
-  res.send('pong')
-})
+export default {
+  helloworld,
+  ping
+}

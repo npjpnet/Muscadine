@@ -1,7 +1,6 @@
-import type { MuscadineIDCardHistory, MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
-
 import * as FirestoreDB from 'firebase/firestore'
 import useFirebase from './useFirebase'
+import type { MuscadineIDCardHistory, MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
 
 const userConveter: FirestoreDB.FirestoreDataConverter<MuscadineUserDoc> = {
   toFirestore: (user: MuscadineUserDoc) => {
@@ -103,123 +102,111 @@ const idCardHistoryConveter: FirestoreDB.FirestoreDataConverter<MuscadineIDCardH
 }
 
 interface IUseUser {
-  getUsers: () => Promise<Record<string, MuscadineUserDoc>>
-  getUserMetas: () => Promise<Record<string, MuscadineUserMeta>>
-  getUserById: (userId: string) => Promise<MuscadineUserDoc>
-  updateUserById: (userId: string, userData: MuscadineUserDoc) => Promise<void>
-  updateUserMetaById: (userId: string, userMeta: MuscadineUserMeta) => Promise<void>
-  getUserMetaByUserId: (userId: string) => Promise<MuscadineUserMeta>
-  getIDCardHistoryByUserId: (userId: string) => Promise<MuscadineIDCardHistory[]>
-  updateIDCardHistoryByUserId: (userId: string, history: MuscadineIDCardHistory) => Promise<void>
+  getUsersAsync: () => Promise<Record<string, MuscadineUserDoc>>
+  getUserMetasAsync: () => Promise<Record<string, MuscadineUserMeta>>
+  getUserByIdAsync: (userId: string) => Promise<MuscadineUserDoc>
+  updateUserByIdAsync: (userId: string, userData: MuscadineUserDoc) => Promise<void>
+  updateUserMetaByIdAsync: (userId: string, userMeta: MuscadineUserMeta) => Promise<void>
+  getUserMetaByUserIdAsync: (userId: string) => Promise<MuscadineUserMeta>
+  getIDCardHistoryByUserIdAsync: (userId: string) => Promise<MuscadineIDCardHistory[]>
+  updateIDCardHistoryByUserIdAsync: (userId: string, history: MuscadineIDCardHistory) => Promise<void>
 }
-const useUser: () => IUseUser = () => {
+const useUser = (): IUseUser => {
   const { getFirestore } = useFirebase()
 
-  const getUsers: () => Promise<Record<string, MuscadineUserDoc>> =
-    async () => {
-      const db = getFirestore()
-      const usersRef = FirestoreDB.collection(db, '/users')
-        .withConverter(userConveter)
-      const usersDoc = await FirestoreDB.getDocs(usersRef)
-      const docs = usersDoc.docs.reduce<Record<string, MuscadineUserDoc>>((p, c) => ({ ...p, [c.id]: c.data() }), {})
-      return docs
-    }
+  const getUsersAsync = async (): Promise<Record<string, MuscadineUserDoc>> => {
+    const db = getFirestore()
+    const usersRef = FirestoreDB.collection(db, 'users')
+      .withConverter(userConveter)
+    const usersDoc = await FirestoreDB.getDocs(usersRef)
+    const docs = usersDoc.docs.reduce<Record<string, MuscadineUserDoc>>((p, c) => ({ ...p, [c.id]: c.data() }), {})
+    return docs
+  }
 
-  const getUserMetas: () => Promise<Record<string, MuscadineUserMeta>> =
-    async () => {
-      const db = getFirestore()
-      const usersRef = FirestoreDB.collection(db, '/userMetas')
-        .withConverter(userMetaConveter)
-      const usersDoc = await FirestoreDB.getDocs(usersRef)
-      const docs = usersDoc.docs.reduce<Record<string, MuscadineUserMeta>>((p, c) => ({ ...p, [c.id]: c.data() }), {})
-      return docs
-    }
+  const getUserMetasAsync = async (): Promise<Record<string, MuscadineUserMeta>> => {
+    const db = getFirestore()
+    const usersRef = FirestoreDB.collection(db, 'userMetas')
+      .withConverter(userMetaConveter)
+    const usersDoc = await FirestoreDB.getDocs(usersRef)
+    const docs = usersDoc.docs.reduce<Record<string, MuscadineUserMeta>>((p, c) => ({ ...p, [c.id]: c.data() }), {})
+    return docs
+  }
 
-  const getUserById: (userId: string) => Promise<MuscadineUserDoc> =
-    async (userId) => {
-      const db = getFirestore()
-      const userRef = FirestoreDB
-        .doc(db, `/users/${userId}`)
-        .withConverter(userConveter)
-      const userDoc = await FirestoreDB.getDoc(userRef)
-      if (!userDoc.exists()) {
-        throw new Error('user not found')
-      }
-      return userDoc.data()
+  const getUserByIdAsync = async (userId: string): Promise<MuscadineUserDoc> => {
+    const db = getFirestore()
+    const userRef = FirestoreDB
+      .doc(db, `users/${userId}`)
+      .withConverter(userConveter)
+    const userDoc = await FirestoreDB.getDoc(userRef)
+    if (!userDoc.exists()) {
+      throw new Error('user not found')
     }
+    return userDoc.data()
+  }
 
-  const updateUserById: (userId: string, userData: MuscadineUserDoc) => Promise<void> =
-    async (userId, userData) => {
-      const db = getFirestore()
-      const userRef = FirestoreDB.doc(db, `/users/${userId}`)
-        .withConverter(userConveter)
-      FirestoreDB.updateDoc(userRef, userData)
-        .catch(err => {
-          throw err
-        })
-    }
+  const updateUserByIdAsync = async (userId: string, userData: MuscadineUserDoc): Promise<void> => {
+    const db = getFirestore()
+    const userRef = FirestoreDB.doc(db, `users/${userId}`)
+      .withConverter(userConveter)
+    FirestoreDB.setDoc(userRef, userData, { merge: true })
+      .catch(err => { throw err })
+  }
 
-  const updateUserMetaById: (userId: string, userData: MuscadineUserMeta) => Promise<void> =
-    async (userId, userData) => {
-      const db = getFirestore()
-      const userRef = FirestoreDB.doc(db, `/userMetas/${userId}`)
-        .withConverter(userMetaConveter)
-      FirestoreDB.updateDoc(userRef, userData)
-        .catch(err => {
-          throw err
-        })
-    }
+  const updateUserMetaByIdAsync = async (userId: string, userData: MuscadineUserMeta): Promise<void> => {
+    const db = getFirestore()
+    const userRef = FirestoreDB.doc(db, `userMetas/${userId}`)
+      .withConverter(userMetaConveter)
+    FirestoreDB.setDoc(userRef, userData, { merge: true })
+      .catch(err => { throw err })
+  }
 
-  const getUserMetaByUserId: (userId: string) => Promise<MuscadineUserMeta> =
-    async (userId) => {
-      const db = getFirestore()
-      const userMetaRef = FirestoreDB
-        .doc(db, `/userMetas/${userId}`)
-        .withConverter(userMetaConveter)
-      const userMetaDoc = await FirestoreDB.getDoc(userMetaRef)
-      if (!userMetaDoc.exists()) {
-        throw new Error('user not found')
-      }
-      return userMetaDoc.data()
+  const getUserMetaByUserIdAsync = async (userId: string): Promise<MuscadineUserMeta> => {
+    const db = getFirestore()
+    const userMetaRef = FirestoreDB
+      .doc(db, `userMetas/${userId}`)
+      .withConverter(userMetaConveter)
+    const userMetaDoc = await FirestoreDB.getDoc(userMetaRef)
+    if (!userMetaDoc.exists()) {
+      throw new Error('user not found')
     }
+    return userMetaDoc.data()
+  }
 
-  const getIDCardHistoryByUserId: (userId: string) => Promise<MuscadineIDCardHistory[]> =
-    async (userId) => {
-      const db = getFirestore()
-      const historyRef = FirestoreDB
-        .collection(db, `/userMetas/${userId}/idcards`)
-        .withConverter(idCardHistoryConveter)
-      const historySnapshot = await FirestoreDB.getDocs(historyRef)
-      const historyDocs = historySnapshot.docs
-        .map(snapshot => snapshot.data())
-      return historyDocs
-    }
+  const getIDCardHistoryByUserIdAsync = async (userId: string): Promise<MuscadineIDCardHistory[]> => {
+    const db = getFirestore()
+    const historyRef = FirestoreDB
+      .collection(db, `userMetas/${userId}/idcards`)
+      .withConverter(idCardHistoryConveter)
+    const historySnapshot = await FirestoreDB.getDocs(historyRef)
+    const historyDocs = historySnapshot.docs
+      .map(snapshot => snapshot.data())
+    return historyDocs
+  }
 
-  const updateIDCardHistoryByUserId: (userId: string, history: MuscadineIDCardHistory) => Promise<void> =
-    async (userId, history) => {
-      const db = getFirestore()
-      const userMetaRef = FirestoreDB.doc(db, `/userMetas/${userId}`)
-        .withConverter(userMetaConveter)
-      const historyRef = FirestoreDB.collection(db, `/userMetas/${userId}/idcards`)
-        .withConverter(idCardHistoryConveter)
-      FirestoreDB.addDoc(historyRef, history)
-        .then(async () => await FirestoreDB.updateDoc(userMetaRef, {
-          idCardIssuedCount: FirestoreDB.increment(1)
-        }))
-        .catch(err => {
-          throw err
-        })
-    }
+  const updateIDCardHistoryByUserIdAsync = async (userId: string, history: MuscadineIDCardHistory): Promise<void> => {
+    const db = getFirestore()
+    const userMetaRef = FirestoreDB.doc(db, `userMetas/${userId}`)
+      .withConverter(userMetaConveter)
+    const historyRef = FirestoreDB.collection(db, `userMetas/${userId}/idcards`)
+      .withConverter(idCardHistoryConveter)
+
+    await FirestoreDB.addDoc(historyRef, history)
+      .catch(err => { throw err })
+    await FirestoreDB.updateDoc(
+      userMetaRef,
+      { idCardIssuedCount: FirestoreDB.increment(1) })
+      .catch(err => { throw err })
+  }
 
   return {
-    getUsers,
-    getUserMetas,
-    getUserById,
-    updateUserById,
-    updateUserMetaById,
-    getUserMetaByUserId,
-    getIDCardHistoryByUserId,
-    updateIDCardHistoryByUserId
+    getUsersAsync,
+    getUserMetasAsync,
+    getUserByIdAsync,
+    updateUserByIdAsync,
+    updateUserMetaByIdAsync,
+    getUserMetaByUserIdAsync,
+    getIDCardHistoryByUserIdAsync,
+    updateIDCardHistoryByUserIdAsync
   }
 }
 export default useUser

@@ -1,9 +1,9 @@
-import * as HelloWorldService from './services/HelloWorldService'
-import * as AccountService from './services/AccountService'
-import * as RequestService from './services/RequestService'
+import * as accounts from './controllers/accounts'
+import * as helloworld from './controllers/helloworld'
+import * as requests from './controllers/requests'
 
 export default {
-  HelloWorldService,
-  AccountService,
-  RequestService
+  accounts,
+  helloworld,
+  requests
 }

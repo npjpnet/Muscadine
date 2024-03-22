@@ -1,25 +1,14 @@
-import type { QueryDocumentSnapshot } from 'firebase-admin/firestore'
-import * as functions from 'firebase-functions'
-import { type Change } from 'firebase-functions'
 import FirebaseAdmin from '../libs/FirebaseAdmin'
 
-export const onChangeUserRoles = functions.firestore
-  .document('/userMetas/{userId}/meta/claims')
-  .onUpdate(
-    async (
-      snapshot: Change<QueryDocumentSnapshot>,
-      context: functions.EventContext<{ userId: string }>
-    ) => {
-      const adminApp = FirebaseAdmin.getFirebaseAdmin()
-      const adminAuth = adminApp.auth()
+const changeUserRolesAsync = async (userId: string, claims: any): Promise<void> => {
+  const adminApp = FirebaseAdmin.getFirebaseAdmin()
+  const adminAuth = adminApp.auth()
 
-      if (!snapshot.after.exists) {
-        return
-      }
+  await adminAuth.setCustomUserClaims(userId, {
+    accessLevel: claims.accessLevel
+  })
+}
 
-      const claims = snapshot.after.data()
-      await adminAuth.setCustomUserClaims(context.params.userId, {
-        accessLevel: claims.accessLevel
-      })
-    }
-  )
+export default {
+  changeUserRolesAsync
+}

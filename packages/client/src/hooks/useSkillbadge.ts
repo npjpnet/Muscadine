@@ -1,7 +1,6 @@
-import type { MuscadineSkillbadge } from 'muscadine'
-
 import * as FirestoreDB from 'firebase/firestore'
 import useFirebase from './useFirebase'
+import type { MuscadineSkillbadge } from 'muscadine'
 
 const PMMaxScore = 9 * 6
 
@@ -48,52 +47,48 @@ const skillbadgeConverter: FirestoreDB.FirestoreDataConverter<MuscadineSkillbadg
 }
 
 interface IUseSkillbadge {
-  getSkillbadgeByUserId: (userId: string) => Promise<MuscadineSkillbadge>
-  getSkillgradeByScores: (scores: number[]) => Grade
-  getSkillgradePMByScore: (score: number) => Grade
+  getSkillbadgeByUserIdAsync: (userId: string) => Promise<MuscadineSkillbadge>
+  calculateSkillgradeByScores: (scores: number[]) => Grade
+  calculateSkillgradePMByScore: (score: number) => Grade
 }
-const useSkillbadge: () => IUseSkillbadge =
-  () => {
-    const { getFirestore } = useFirebase()
+const useSkillbadge = (): IUseSkillbadge => {
+  const { getFirestore } = useFirebase()
 
-    const getSkillbadgeByUserId: (userId: string) => Promise<MuscadineSkillbadge> =
-      async (userId) => {
-        const db = getFirestore()
-        const skillbadgeRef = FirestoreDB.doc(db, `/skillbadges/${userId}`)
-          .withConverter(skillbadgeConverter)
-        const skillbadgeDoc = await FirestoreDB.getDoc(skillbadgeRef)
-        if (!skillbadgeDoc.exists()) {
-          throw new Error('skillbadge not found')
-        }
-        return skillbadgeDoc.data()
-      }
+  const getSkillbadgeByUserIdAsync = async (userId: string): Promise<MuscadineSkillbadge> => {
+    const db = getFirestore()
+    const skillbadgeRef = FirestoreDB.doc(db, `/skillbadges/${userId}`)
+      .withConverter(skillbadgeConverter)
+    const skillbadgeDoc = await FirestoreDB.getDoc(skillbadgeRef)
+    if (!skillbadgeDoc.exists()) {
+      throw new Error('skillbadge not found')
+    }
+    return skillbadgeDoc.data()
+  }
 
-    const getSkillgradeByScores: (scores: number[]) => Grade =
-      (scores) => {
-        const average = scores.reduce((p, c) => p + c) / scores.length
-        if (average >= 2.5) {
-          return 3
-        } else if (average >= 1.5) {
-          return 2
-        } else if (average >= 0.5) {
-          return 1
-        } else {
-          return 0
-        }
-      }
-
-    const getSkillgradePMByScore: (score: number) => Grade =
-      (score) => {
-        if (score === PMMaxScore) {
-          return 4
-        }
-        return 0
-      }
-
-    return {
-      getSkillbadgeByUserId,
-      getSkillgradeByScores,
-      getSkillgradePMByScore
+  const calculateSkillgradeByScores = (scores: number[]): Grade => {
+    const average = scores.reduce((p, c) => p + c) / scores.length
+    if (average >= 2.5) {
+      return 3
+    } else if (average >= 1.5) {
+      return 2
+    } else if (average >= 0.5) {
+      return 1
+    } else {
+      return 0
     }
   }
+
+  const calculateSkillgradePMByScore = (score: number): Grade => {
+    if (score === PMMaxScore) {
+      return 4
+    }
+    return 0
+  }
+
+  return {
+    getSkillbadgeByUserIdAsync,
+    calculateSkillgradeByScores,
+    calculateSkillgradePMByScore
+  }
+}
 export default useSkillbadge

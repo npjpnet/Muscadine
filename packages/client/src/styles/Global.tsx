@@ -4,12 +4,20 @@ const GlobalStyle = createGlobalStyle`
 html, body, #root {
   height: 100%;
 }
+
 body {
   font-family: 'Noto Sans JP', system-ui, sans-serif;
 }
 
 * {
   box-sizing: border-box;
+}
+
+html, body,
+h1, h2, h3, h4, h5, h6,
+p, ul, ol {
+  margin: 0;
+  padding: 0;
 }
 
 p, ul, ol,
