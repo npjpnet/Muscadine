@@ -11,7 +11,7 @@ import FormSection from '../../components/form/FormSection'
 import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useFirebase from '../../hooks/useFirebase'
 import useUser from '../../hooks/useUser'
-import type { MuscadineUserDoc } from 'muscadine'
+import { MuscadineBankAccount, type MuscadineUserDoc } from 'muscadine'
 
 const canUseRealNameForDisplayOption = [
   {
@@ -40,24 +40,41 @@ const MyPageEditPage: React.FC = () => {
 
   const [userData, setUserData] = useState<MuscadineUserDoc>()
 
+  const [bankAccount, setBankAccount] = useState<MuscadineBankAccount>({
+    bankName: '',
+    branchName: '',
+    bankAccountNumber: ''
+  })
+
   const handleChange = useCallback(() => {
     if (!user || !userData) return
-    updateUserByIdAsync(user.uid, userData)
+
+    const fetchedUserData: MuscadineUserDoc = {
+      ...userData,
+      bankAccount
+    }
+
+    updateUserByIdAsync(user.uid, fetchedUserData)
       .then(() => alert('更新しました'))
       .catch(err => {
         throw err
       })
-  }, [user, userData])
+  }, [user, userData, bankAccount])
 
   useEffect(() => {
     const fetchUserAsync = async (): Promise<void> => {
       if (!user) return
       const fetchedUser = await getUserByIdAsync(user.uid)
       setUserData(fetchedUser)
+
+      if (fetchedUser.bankAccount) {
+        setBankAccount(fetchedUser.bankAccount)
+      }
     }
     fetchUserAsync()
       .catch(err => { throw err })
   }, [user])
+
 
   return (
     <DefaultLayout>
@@ -155,6 +172,29 @@ const MyPageEditPage: React.FC = () => {
                   onChange={v => setUserData(s => s && ({ ...s, allowShownFace: v === 'yes' }))} />
               </FormItem>
             </FormSection>
+          </Column>
+          <Column>
+          <h2>経費振込先情報</h2>
+          <FormSection>
+            <FormItem>
+              <FormLabel>銀行名</FormLabel>
+              <FormInput
+                value={bankAccount.bankName}
+                onChange={e => setBankAccount(s => ({...s, bankName: e.target.value}))} />
+            </FormItem>
+            <FormItem>
+              <FormLabel>支店名</FormLabel>
+              <FormInput
+                value={bankAccount.branchName}
+                onChange={e => setBankAccount(s => ({...s, branchName: e.target.value}))} />
+            </FormItem>
+            <FormItem>
+              <FormLabel>口座番号</FormLabel>
+              <FormInput
+                value={bankAccount.bankAccountNumber}
+                onChange={e => setBankAccount(s => ({...s, bankAccountNumber: e.target.value}))} />
+            </FormItem>
+          </FormSection>
           </Column>
         </Layout>
       </>}

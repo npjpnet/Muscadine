@@ -14,9 +14,15 @@ export interface MuscadineUser {
   discordTag: string
   canUseRealNameForDisplay: boolean
   allowShownFace: boolean
+  bankAccount?: MuscadineBankAccount
 }
 export type MuscadineUserDoc = MuscadineUser & {
   userId?: string
+}
+export interface MuscadineBankAccount {
+  bankName: string
+  branchName: string
+  bankAccountNumber: string
 }
 
 export interface MuscadineUserMeta {

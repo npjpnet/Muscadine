@@ -1,28 +1,8 @@
 import * as FirestoreDB from 'firebase/firestore'
+import { requestConverter } from '../libs/converters'
 import useFirebase from './useFirebase'
 import type { MuscadineDocumentRequest, MuscadineDocumentRequestDoc, MuscadineRequestStatus } from 'muscadine'
 
-const requestConverter: FirestoreDB.FirestoreDataConverter<MuscadineDocumentRequestDoc> = {
-  toFirestore: (request: MuscadineDocumentRequestDoc) => ({
-    type: request.type,
-    reason: request.reason,
-    remarks: request.remarks,
-    userId: request.userId,
-    status: request.status,
-    timestamp: FirestoreDB.serverTimestamp()
-  }),
-  fromFirestore: (snapshot: FirestoreDB.QueryDocumentSnapshot) => {
-    const data = snapshot.data()
-    return {
-      type: data.type,
-      reason: data.reason,
-      remarks: data.remarks,
-      userId: data.userId,
-      status: data.status,
-      timestamp: data.timestamp.toDate().getTime()
-    }
-  }
-}
 interface IUseRequestDocument {
   createDocumentRequestAsync: (userId: string, request: MuscadineDocumentRequest) => Promise<string>
   getDocumentRequestsAsync: () => Promise<Record<string, MuscadineDocumentRequestDoc>>

@@ -111,15 +111,15 @@ const MyPageTopPage: React.FC = () => {
               <tbody>
                 <tr>
                   <th>銀行名</th>
-                  <td>- TBD -</td>
+                  <td>{userData.bankAccount?.bankName ?? '(未入力)'}</td>
                 </tr>
                 <tr>
                   <th>支店名</th>
-                  <td>- TBD -</td>
+                  <td>{userData.bankAccount?.branchName ?? '(未入力)'}</td>
                 </tr>
                 <tr>
                   <th>口座番号</th>
-                  <td>- TBD -</td>
+                  <td>{userData.bankAccount?.bankAccountNumber ?? '(未入力)'}</td>
                 </tr>
               </tbody>
             </table>

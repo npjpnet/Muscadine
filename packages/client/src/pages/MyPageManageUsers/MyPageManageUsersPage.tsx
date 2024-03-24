@@ -11,7 +11,7 @@ import FormSection from '../../components/form/FormSection'
 import FormSelect from '../../components/form/FormSelect'
 import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useUser from '../../hooks/useUser'
-import type { MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
+import type { MuscadineBankAccount, MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
 
 const canUseRealNameForDisplayOption = [
   {
@@ -69,6 +69,12 @@ const MyPageManageUsersPage: React.FC = () => {
   const [userData, setUserData] = useState<MuscadineUserDoc>()
   const [userMeta, setUserMeta] = useState<MuscadineUserMeta>()
 
+  const [bankAccount, setBankAccount] = useState<MuscadineBankAccount>({
+    bankName: '',
+    branchName: '',
+    bankAccountNumber: ''
+  })
+  
   useEffect(() => {
     const fetchUserAsync: () => Promise<void> =
       async () => {
@@ -77,22 +83,28 @@ const MyPageManageUsersPage: React.FC = () => {
         setUserData(fetchedUserData)
         const fetchedUserMeta = await getUserMetaByUserIdAsync(userId)
         setUserMeta(fetchedUserMeta)
+
+        if (fetchedUserData.bankAccount) {
+          setBankAccount(fetchedUserData.bankAccount)
+        }
       }
     fetchUserAsync()
-      .catch(err => {
-        throw err
-      })
+      .catch(err => { throw err })
   }, [userId])
 
   const handleChange = useCallback(() => {
     if (!userId || !userData || !userMeta) return
-    updateUserByIdAsync(userId, userData)
+    const fetchedUserData = {
+      ...userData,
+      bankAccount
+    }
+    updateUserByIdAsync(userId, fetchedUserData)
       .then(async () => {
         await updateUserMetaByIdAsync(userId, userMeta)
         alert('更新しました')
       })
       .catch(err => { throw err })
-  }, [userId, userData, userMeta])
+  }, [userId, userData, userMeta, bankAccount])
 
   return (
     <DefaultLayout requiredAccessLevel={2}>
@@ -190,6 +202,29 @@ const MyPageManageUsersPage: React.FC = () => {
                   onChange={v => setUserData(s => s && ({ ...s, allowShownFace: v === 'yes' }))} />
               </FormItem>
             </FormSection>
+          </Column>
+          <Column>
+          <h4>経費振込先情報</h4>
+          <FormSection>
+            <FormItem>
+              <FormLabel>銀行名</FormLabel>
+              <FormInput
+                value={bankAccount.bankName}
+                onChange={e => setBankAccount(s => ({...s, bankName: e.target.value}))} />
+            </FormItem>
+            <FormItem>
+              <FormLabel>支店名</FormLabel>
+              <FormInput
+                value={bankAccount.branchName}
+                onChange={e => setBankAccount(s => ({...s, branchName: e.target.value}))} />
+            </FormItem>
+            <FormItem>
+              <FormLabel>口座番号</FormLabel>
+              <FormInput
+                value={bankAccount.bankAccountNumber}
+                onChange={e => setBankAccount(s => ({...s, bankAccountNumber: e.target.value}))} />
+            </FormItem>
+          </FormSection>
           </Column>
         </Layout>
 

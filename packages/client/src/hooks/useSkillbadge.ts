@@ -1,4 +1,5 @@
 import * as FirestoreDB from 'firebase/firestore'
+import { skillbadgeConverter } from '../libs/converters'
 import useFirebase from './useFirebase'
 import type { MuscadineSkillbadge } from 'muscadine'
 
@@ -6,45 +7,6 @@ const PMMaxScore = 9 * 6
 
 export type Grade = 0 | 1 | 2 | 3 | 4
 export const GradeText = ['-', 'B', 'B+', 'A', 'PM']
-
-const skillbadgeConverter: FirestoreDB.FirestoreDataConverter<MuscadineSkillbadge> = {
-  toFirestore: () => ({
-  }),
-  fromFirestore: (snapshot: FirestoreDB.QueryDocumentSnapshot) => {
-    const data = snapshot.data()
-    return {
-      projectManager: {
-        projectManagement: data.projectManager.projectManagement,
-        memberAllocation: data.projectManager.memberAllocation,
-        decisionMaking: data.projectManager.decisionMaking,
-        instructionGiving: data.projectManager.instructionGiving,
-        emergencyResponse: data.projectManager.emergencyResponse,
-        implementationRecordKeeping: data.projectManager.implementationRecordKeeping
-      },
-      publicAddress: {
-        videoSetup: data.publicAddress.videoSetup,
-        audioSetup: data.publicAddress.audioSetup,
-        videoOperation: data.publicAddress.videoOperation,
-        audioOperation: data.publicAddress.audioOperation,
-        stageCoordination: data.publicAddress.stageCoordination,
-        camera: data.publicAddress.camera,
-        livestreamPlatformManagement: data.publicAddress.livestreamPlatformManagement
-      },
-      stage: {
-        MC: data.stage.MC,
-        speakerSupport: data.stage.speakerSupport,
-        progressManagement: data.stage.progressManagement,
-        livestreamAudioCoordination: data.stage.livestreamAudioCoordination,
-        responseToCommentsAndOtherFeedback: data.stage.responseToCommentsAndOtherFeedback
-      },
-      guestOperator: {
-        attendeeSupport: data.guestOperator.attendeeSupport,
-        stakeholderManagement: data.guestOperator.stakeholderManagement,
-        cashRegisterPayment: data.guestOperator.cashRegisterPayment
-      }
-    }
-  }
-}
 
 interface IUseSkillbadge {
   getSkillbadgeByUserIdAsync: (userId: string) => Promise<MuscadineSkillbadge>
