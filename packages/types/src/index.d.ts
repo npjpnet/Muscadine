@@ -43,6 +43,21 @@ export interface MuscadineUserMeta {
   }
 }
 
+export interface MuscadineExpense {
+  purpose: string
+  store: {
+    name: string
+  }
+  remarks: string
+  price: number
+}
+export type MuscadineExpenseDoc = MuscadineExpense & {
+  userId: string
+  id?: string
+  status?: MuscadineRequestStatus
+  createdAt?: Date
+}
+
 export interface MuscadineIDCardHistory {
   cardNumber: string
   remarks: string

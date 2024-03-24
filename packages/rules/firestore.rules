@@ -29,5 +29,11 @@ service cloud.firestore {
       allow update: if isAdmin();
       allow read: if request.auth.uid == resource.data.userId || isAdmin();
     }
+
+    match /expenses/{expenseId} {
+      allow create: if request.auth.uid == request.resource.data.userId;
+      allow update: if isAdmin();
+      allow read: if request.auth.uid == resource.data.userId || isAdmin();
+    }
   }
 }

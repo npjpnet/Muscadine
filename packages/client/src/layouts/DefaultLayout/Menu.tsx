@@ -6,7 +6,9 @@ import {
   MdStars,
   MdContactPage,
   MdViewList,
-  MdInbox
+  MdInbox,
+  MdReceiptLong,
+  MdReceipt
 } from 'react-icons/md'
 import { Link, useNavigate } from 'react-router-dom'
 import styled, { css } from 'styled-components'
@@ -57,13 +59,13 @@ const sections: Array<{
         to: '/request-documents',
         icon: <MdContactPage />,
         text: '書類発行申請'
+      },
+      {
+        id: 'requestExpenses',
+        to: '/request-expenses',
+        icon: <MdReceiptLong />,
+        text: '経費申請'
       }
-      // {
-      //   id: 'requestExpenses',
-      //   to: '/request-expenses',
-      //   icon: <MdReceipt />,
-      //   text: '経費申請(TBD)'
-      // }
     ]
   },
   {
@@ -82,13 +84,13 @@ const sections: Array<{
         to: '/manage/request-documents',
         icon: <MdInbox />,
         text: '書類発行申請管理'
+      },
+      {
+        id: 'manageRequestExpenses',
+        to: '/manage/request-expenses',
+        icon: <MdReceipt />,
+        text: '経費申請管理'
       }
-      // {
-      //   id: 'manageRequestExpenses',
-      //   to: '/manage/request-expenses',
-      //   icon: <MdReceiptLong />,
-      //   text: '経費申請管理(TBD)'
-      // }
     ]
   }
 ]

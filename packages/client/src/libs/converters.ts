@@ -1,6 +1,7 @@
 import * as FirestoreDB from 'firebase/firestore'
 import type {
   MuscadineDocumentRequestDoc,
+  MuscadineExpenseDoc,
   MuscadineIDCardHistory,
   MuscadineSkillbadge,
   MuscadineUserDoc,
@@ -171,10 +172,35 @@ const idCardHistoryConveter: FirestoreDB.FirestoreDataConverter<MuscadineIDCardH
   }
 }
 
+const expenseConverter: FirestoreDB.FirestoreDataConverter<MuscadineExpenseDoc> = {
+  toFirestore: (expense: MuscadineExpenseDoc) => ({
+    userId: expense.userId,
+    purpose: expense.purpose,
+    store: expense.store,
+    remarks: expense.remarks,
+    price: expense.price,
+    status: expense.status,
+    createdAt: FirestoreDB.serverTimestamp()
+  }),
+  fromFirestore: (snapshot: FirestoreDB.QueryDocumentSnapshot): MuscadineExpenseDoc => {
+    const expense = snapshot.data()
+    return {
+      id: snapshot.id,
+      userId: expense.userId,
+      purpose: expense.purpose,
+      store: expense.store,
+      remarks: expense.remarks,
+      price: expense.price,
+      status: expense.status,
+      createdAt: expense.createdAt?.toDate() ?? new Date(0)
+    }
+  }
+}
 export {
   requestConverter,
   skillbadgeConverter,
   userConveter,
   userMetaConveter,
-  idCardHistoryConveter
+  idCardHistoryConveter,
+  expenseConverter
 }

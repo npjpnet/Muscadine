@@ -4,7 +4,8 @@ import MyPageEditPage from '../MyPageEdit/MyPageEditPage'
 import MyPageEventHistoriesPage from '../MyPageEventHistories/MyPageEventHistoriesPage'
 import MyPageManageRequestDocumentsDetailPage from '../MyPageManageRequestDocuments/MyPageManageRequestDocumentsDetailPage'
 import MyPageManageRequestDocumentsListPage from '../MyPageManageRequestDocuments/MyPageManageRequestDocumentsListPage'
-import MyPageManageRequestExpensePage from '../MyPageManageRequestExpense/MyPageManageRequestExpensePage'
+import MyPageManageRequestExpenseDetailPage from '../MyPageManageRequestExpense/MyPageManageRequestExpenseDetailPage'
+import MyPageManageRequestExpenseListPage from '../MyPageManageRequestExpense/MyPageManageRequestExpenseListPage'
 import MyPageManageTopPage from '../MyPageManageTop/MyPageManageTopPage'
 import MyPageManageUsersPage from '../MyPageManageUsers/MyPageManageUsersPage'
 import MyPageRequestDocumentsPage from '../MyPageRequestDocuments/MyPageRequestDocumentsPage'
@@ -80,7 +81,16 @@ const router = createBrowserRouter([
           },
           {
             path: 'request-expenses',
-            element: <MyPageManageRequestExpensePage />
+            children: [
+              {
+                index: true,
+                element: <MyPageManageRequestExpenseListPage />
+              },
+              {
+                path: ':requestId',
+                element: <MyPageManageRequestExpenseDetailPage />
+              }
+            ]
           },
           {
             path: 'user',
