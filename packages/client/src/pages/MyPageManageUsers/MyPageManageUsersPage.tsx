@@ -9,8 +9,8 @@ import FormLabel from '../../components/form/FormLabel'
 import FormRadio from '../../components/form/FormRadio'
 import FormSection from '../../components/form/FormSection'
 import FormSelect from '../../components/form/FormSelect'
-import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import useUser from '../../hooks/useUser'
+import DefaultLayout from '../../layouts/DefaultLayout/DefaultLayout'
 import type { MuscadineBankAccount, MuscadineUserDoc, MuscadineUserMeta } from 'muscadine'
 
 const canUseRealNameForDisplayOption = [
@@ -74,7 +74,7 @@ const MyPageManageUsersPage: React.FC = () => {
     branchName: '',
     bankAccountNumber: ''
   })
-  
+
   useEffect(() => {
     const fetchUserAsync: () => Promise<void> =
       async () => {
@@ -204,27 +204,27 @@ const MyPageManageUsersPage: React.FC = () => {
             </FormSection>
           </Column>
           <Column>
-          <h4>経費振込先情報</h4>
-          <FormSection>
-            <FormItem>
-              <FormLabel>銀行名</FormLabel>
-              <FormInput
-                value={bankAccount.bankName}
-                onChange={e => setBankAccount(s => ({...s, bankName: e.target.value}))} />
-            </FormItem>
-            <FormItem>
-              <FormLabel>支店名</FormLabel>
-              <FormInput
-                value={bankAccount.branchName}
-                onChange={e => setBankAccount(s => ({...s, branchName: e.target.value}))} />
-            </FormItem>
-            <FormItem>
-              <FormLabel>口座番号</FormLabel>
-              <FormInput
-                value={bankAccount.bankAccountNumber}
-                onChange={e => setBankAccount(s => ({...s, bankAccountNumber: e.target.value}))} />
-            </FormItem>
-          </FormSection>
+            <h4>経費振込先情報</h4>
+            <FormSection>
+              <FormItem>
+                <FormLabel>銀行名</FormLabel>
+                <FormInput
+                  value={bankAccount.bankName}
+                  onChange={e => setBankAccount(s => ({ ...s, bankName: e.target.value }))} />
+              </FormItem>
+              <FormItem>
+                <FormLabel>支店名</FormLabel>
+                <FormInput
+                  value={bankAccount.branchName}
+                  onChange={e => setBankAccount(s => ({ ...s, branchName: e.target.value }))} />
+              </FormItem>
+              <FormItem>
+                <FormLabel>口座番号</FormLabel>
+                <FormInput
+                  value={bankAccount.bankAccountNumber}
+                  onChange={e => setBankAccount(s => ({ ...s, bankAccountNumber: e.target.value }))} />
+              </FormItem>
+            </FormSection>
           </Column>
         </Layout>
 
